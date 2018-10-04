@@ -62,6 +62,7 @@ public class SearchListActivity extends BaseActivity implements SearchListContra
 
         Intent intent = getIntent();
         int type = intent.getIntExtra("TYPE",0);
+        mPresenter.start();
         if(type==0){
             //按单位搜索
             Log.d(TAG, "onCreate: UNITID"+intent.getIntExtra("text",0));

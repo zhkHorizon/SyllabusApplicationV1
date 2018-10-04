@@ -26,20 +26,7 @@ public class RecomModel implements IRecomModel{
     }
 
     @Override
-    public Observable<List<UnitBean>> getAllUnitFromNet() {
-        return mRecomApi.getAllUnit()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .flatMap(new Func1<HttpResult<List<UnitBean>>, Observable<List<UnitBean>>>() {
-                    @Override
-                    public Observable<List<UnitBean>> call(HttpResult<List<UnitBean>> listHttpResult) {
-                        return Observable.just(listHttpResult.getData());
-                    }
-                });
-    }
-
-
-    public Observable<UnitBean> getAllUnitFromNetTest() {
+    public Observable<UnitBean> getAllUnitFromNet() {
         return mRecomApi.getAllUnit()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -51,42 +38,44 @@ public class RecomModel implements IRecomModel{
                 });
     }
 
+
+
     @Override
-    public Observable<List<ClassDetailBean>> getClassDetailByCLassName(String className) {
+    public Observable<ClassDetailBean> getClassDetailByCLassName(String className) {
         return mRecomApi.getClassDetailByClassName(className)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .flatMap(new Func1<HttpResult<List<ClassDetailBean>>, Observable<List<ClassDetailBean>>>() {
+                .flatMap(new Func1<HttpResult<List<ClassDetailBean>>, Observable<ClassDetailBean>>() {
                     @Override
-                    public Observable<List<ClassDetailBean>> call(HttpResult<List<ClassDetailBean>> listHttpResult) {
+                    public Observable<ClassDetailBean> call(HttpResult<List<ClassDetailBean>> listHttpResult) {
                         Log.d(TAG, "call: "+listHttpResult.getMessage());
-                        return Observable.just(listHttpResult.getData());
+                        return Observable.from(listHttpResult.getData());
                     }
                 });
     }
 
     @Override
-    public Observable<List<SearchClassResultBean>> getResultFromSearch(String text) {
+    public Observable<SearchClassResultBean> getResultFromSearch(String text) {
         return mRecomApi.getResultFromSearch(1,text)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .flatMap(new Func1<HttpResult<List<SearchClassResultBean>>, Observable<List<SearchClassResultBean>>>() {
+                .flatMap(new Func1<HttpResult<List<SearchClassResultBean>>, Observable<SearchClassResultBean>>() {
                     @Override
-                    public Observable<List<SearchClassResultBean>> call(HttpResult<List<SearchClassResultBean>> listHttpResult) {
-                        return Observable.just(listHttpResult.getData());
+                    public Observable<SearchClassResultBean> call(HttpResult<List<SearchClassResultBean>> listHttpResult) {
+                        return Observable.from(listHttpResult.getData());
                     }
                 });
     }
 
     @Override
-    public Observable<List<SearchClassResultBean>> getResultFromUnit(int UnitID) {
+    public Observable<SearchClassResultBean> getResultFromUnit(int UnitID) {
         return mRecomApi.getResultFromUnit(0,UnitID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .flatMap(new Func1<HttpResult<List<SearchClassResultBean>>, Observable<List<SearchClassResultBean>>>() {
+                .flatMap(new Func1<HttpResult<List<SearchClassResultBean>>, Observable<SearchClassResultBean>>() {
                     @Override
-                    public Observable<List<SearchClassResultBean>> call(HttpResult<List<SearchClassResultBean>> listHttpResult) {
-                        return Observable.just(listHttpResult.getData());
+                    public Observable<SearchClassResultBean> call(HttpResult<List<SearchClassResultBean>> listHttpResult) {
+                        return Observable.from(listHttpResult.getData());
                     }
                 });
     }

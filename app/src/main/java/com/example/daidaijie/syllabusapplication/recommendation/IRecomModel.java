@@ -9,10 +9,9 @@ import rx.Observable;
  */
 
 public interface IRecomModel {
-    Observable<List<UnitBean>> getAllUnitFromNet();
-    Observable<List<ClassDetailBean>> getClassDetailByCLassName(String className);
-    Observable<List<SearchClassResultBean>> getResultFromSearch(String text);
-    Observable<List<SearchClassResultBean>> getResultFromUnit(int UnitID);
+    Observable<UnitBean> getAllUnitFromNet();
+    Observable<ClassDetailBean> getClassDetailByCLassName(String className);
+    Observable<SearchClassResultBean> getResultFromSearch(String text);
+    Observable<SearchClassResultBean> getResultFromUnit(int UnitID);
 
-    Observable<UnitBean> getAllUnitFromNetTest();
  }

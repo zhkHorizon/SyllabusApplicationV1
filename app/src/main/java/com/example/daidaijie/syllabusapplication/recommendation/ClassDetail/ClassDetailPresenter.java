@@ -22,6 +22,7 @@ import rx.Subscriber;
 public class ClassDetailPresenter implements ClassDetailContract.presenter {
     private IRecomModel mRecomModel;
     private ClassDetailContract.view mView;
+    private List<ClassDetailBean> list;
     private static final String TAG = "ClassDetailPresenter";
 
     @Inject
@@ -34,37 +35,28 @@ public class ClassDetailPresenter implements ClassDetailContract.presenter {
     public void loadData(String className) {
         Log.d(TAG, "loadData:CLASSNAME "+className);
         mRecomModel.getClassDetailByCLassName(className)
-                .subscribe(new Subscriber<List<ClassDetailBean>>() {
+                .subscribe(new Subscriber<ClassDetailBean>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: loadingUnitList");
+                        Comparator<ClassDetailBean> com = new ClassScoreComparatpor();
+                        Collections.sort(list,com);
+                        mView.showList(list);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+
                     }
 
                     @Override
-                    public void onNext(List<ClassDetailBean> unitBeen) {
-                        List<ClassDetailBean> list = new ArrayList<ClassDetailBean>();
-                        for(ClassDetailBean temp:unitBeen){
-                            ClassDetailBean t1 = new ClassDetailBean();
-                            t1.setClassName(temp.getClassName());
-                            t1.setClassID(temp.getClassID());
-                            t1.setScore(temp.getScore());
-                            t1.setTeacherName(temp.getTeacherName());
-                            list.add(t1);
-                        }
-                        Comparator<ClassDetailBean> com = new ClassScoreComparatpor();
-                        Collections.sort(list,com);
-                        mView.showList(list);
+                    public void onNext(ClassDetailBean classDetailBean) {
+                        list.add(classDetailBean);
                     }
                 });
     }
 
     @Override
     public void start() {
-
+        list = new ArrayList<>();
     }
 }

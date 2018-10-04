@@ -25,6 +25,7 @@ import rx.functions.Func1;
 public class SearchListPrsenter implements SearchListContract.presenter{
     private IRecomModel mRecomModel;
     private SearchListContract.view mView;
+    private List<SearchClassResultBean> list ;
     private static final String TAG = "SearchListPrsenter";
 
     @Inject
@@ -36,62 +37,51 @@ public class SearchListPrsenter implements SearchListContract.presenter{
 
     @Override
     public void start() {
-
+        list = new ArrayList<>();
     }
 
     @Override
     public void loadDataForUnit(int UnitID) {
         Log.d(TAG, "loadDataForUnit: UNITID"+UnitID);
+        list.clear();
         mRecomModel.getResultFromUnit(UnitID)
-                .subscribe(new Subscriber<List<SearchClassResultBean>>() {
+                .subscribe(new Subscriber<SearchClassResultBean>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: loadingUnitList");
+                        mView.showList(list);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+
                     }
 
                     @Override
-                    public void onNext(List<SearchClassResultBean> unitBeen) {
-                        List<SearchClassResultBean> list = new ArrayList<SearchClassResultBean>();
-                        for(SearchClassResultBean temp:unitBeen){
-                            SearchClassResultBean t1 = new SearchClassResultBean();
-                            t1.setClassName(temp.getClassName());
-                            list.add(t1);
-                        }
-                        mView.showList(list);
+                    public void onNext(SearchClassResultBean searchClassResultBean) {
+                        list.add(searchClassResultBean);
                     }
                 });
     }
 
     @Override
     public void loadDataForSearch(String text) {
-
+        list.clear();
         mRecomModel.getResultFromSearch(text)
 
-                .subscribe(new Subscriber<List<SearchClassResultBean>>() {
+                .subscribe(new Subscriber<SearchClassResultBean>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: loadingUnitList");
+                        mView.showList(list);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+
                     }
 
                     @Override
-                    public void onNext(List<SearchClassResultBean> unitBeen) {
-                        List<SearchClassResultBean> list = new ArrayList<SearchClassResultBean>();
-                        for(SearchClassResultBean temp:unitBeen){
-                            SearchClassResultBean t1 = new SearchClassResultBean();
-                            t1.setClassName(temp.getClassName());
-                            list.add(t1);
-                        }
-                        mView.showList(list);
+                    public void onNext(SearchClassResultBean searchClassResultBean) {
+                        list.add(searchClassResultBean);
                     }
                 });
 

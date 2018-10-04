@@ -48,6 +48,7 @@ public class ClassDetailAcvitity extends BaseActivity implements ClassDetailCont
 
         Intent intent = getIntent();
         String name = intent.getStringExtra("CLASSNAME");
+        mPresenter.start();
         mPresenter.loadData(name);
     }
 

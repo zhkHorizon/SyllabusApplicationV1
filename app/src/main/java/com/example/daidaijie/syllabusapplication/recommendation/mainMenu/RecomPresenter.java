@@ -22,7 +22,7 @@ public class RecomPresenter implements RecomContract.presenter {
     private IRecomModel mRecomModel;
     private RecomContract.view mView;
     private static final String TAG = "RecomPresenter";
-    List<UnitBean> list1;
+    List<UnitBean> list;
 
     @Inject
     @PerActivity
@@ -33,48 +33,22 @@ public class RecomPresenter implements RecomContract.presenter {
 
     @Override
     public void start() {
-        list1 = new ArrayList<UnitBean>();
+        list = new ArrayList<>();
+
         mRecomModel.getAllUnitFromNet()
-                .subscribe(new Subscriber<List<UnitBean>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "onCompleted: loadingUnitList");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(List<UnitBean> unitBeen) {
-                        List<UnitBean> list = new ArrayList<UnitBean>();
-                        for(UnitBean temp:unitBeen){
-                            UnitBean t1 = new UnitBean();
-                            Log.d(TAG, "onNext: "+temp.getUnitID()+temp.getUnitName());
-                            t1.setUnitID(temp.getUnitID());
-                            t1.setUnitName(temp.getUnitName());
-                            list.add(t1);
-                        }
-                        mView.showList(list);
-                    }
-                });
-
-        mRecomModel.getAllUnitFromNetTest()
                 .subscribe(new Subscriber<UnitBean>() {
                     @Override
                     public void onCompleted() {
-                        mView.showList(list1);
+                        mView.showList(list);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override
                     public void onNext(UnitBean unitBean) {
-                        list1.add(unitBean);
+                        list.add(unitBean);
                     }
                 });
     }
