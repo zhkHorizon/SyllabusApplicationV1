@@ -48,6 +48,7 @@ import com.example.daidaijie.syllabusapplication.login.login.LoginActivity;
 import com.example.daidaijie.syllabusapplication.model.InternetModel;
 import com.example.daidaijie.syllabusapplication.other.update.IDownloadView;
 import com.example.daidaijie.syllabusapplication.other.update.UpdateInstaller;
+import com.example.daidaijie.syllabusapplication.recommendation.mainMenu.RecomActivity;
 import com.example.daidaijie.syllabusapplication.retrofitApi.SchoolInternetApi;
 import com.example.daidaijie.syllabusapplication.services.StreamService;
 import com.example.daidaijie.syllabusapplication.stream.IStreamModel;
@@ -524,7 +525,9 @@ public class MainActivity extends BaseActivity implements
         mToTodoCardItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+                //TODO,功能测试
+                //Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+                Intent intent = new Intent(MainActivity.this, RecomActivity.class);
                 startActivity(intent);
             }
         });

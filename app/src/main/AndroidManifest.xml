@@ -170,11 +170,18 @@
         <activity
             android:name=".other.update.UpdateActivity"
             android:screenOrientation="portrait" />
-        <receiver android:name=".todo.addOrEditTask.AlarmAction" android:process=":remote"></receiver>
+
+        <receiver
+            android:name=".todo.addOrEditTask.AlarmAction"
+            android:process=":remote" />
+
         <activity android:name=".todo.mainMenu.TaskListActivity" />
         <activity android:name=".todo.taskDetail.TaskDetailActivity" />
         <activity android:name=".todo.addOrEditTask.TaskAEActivity" />
-        <activity android:name=".syllabus.LessonEvaluation.LessonEvalActivity"></activity>
+        <activity android:name=".syllabus.LessonEvaluation.LessonEvalActivity" />
+        <activity android:name=".recommendation.searchList.SearchListActivity" />
+        <activity android:name=".recommendation.mainMenu.RecomActivity"></activity>
+        <activity android:name=".recommendation.ClassDetail.ClassDetailAcvitity"></activity>
     </application>
 
 </manifest>

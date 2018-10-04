@@ -16,6 +16,7 @@ import com.example.daidaijie.syllabusapplication.base.BaseFragment;
 import com.example.daidaijie.syllabusapplication.todo.addOrEditTask.TaskAEActivity;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
 import com.example.daidaijie.syllabusapplication.todo.mainMenu.TaskListPresenter;
+import com.example.daidaijie.syllabusapplication.user.UserComponent;
 
 import java.text.SimpleDateFormat;
 
@@ -114,6 +115,7 @@ public class TaskDetailFragment extends BaseFragment implements TaskDetailContra
     protected void init(Bundle savedInstanceState) {
         DaggerTaskDetailComponent.builder()
                 .taskDetailModule(new TaskDetailModule(this))
+                .userComponent(UserComponent.buildInstance(mAppComponent))
                 .build().inject(this);
         mTaskDetailPresenter.setTASK_ID(TASK_ID);
 

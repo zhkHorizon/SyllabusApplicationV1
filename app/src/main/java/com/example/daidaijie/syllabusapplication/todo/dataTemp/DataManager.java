@@ -87,4 +87,12 @@ public class DataManager {
         }
         return 0;
     }
+
+    public void deleteAll(){
+        taskDao.deleteAll();
+    }
+
+    public void insertAll(List<TaskBean> list){
+        taskDao.insertInTx(list);
+    }
 }

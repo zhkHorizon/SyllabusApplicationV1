@@ -28,6 +28,7 @@ import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.base.BaseFragment;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.TodoRetrofit;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
+import com.example.daidaijie.syllabusapplication.user.UserComponent;
 
 import org.w3c.dom.Text;
 
@@ -149,6 +150,7 @@ public class TaskAEFragment extends BaseFragment implements TaskAEContract.View,
 
         DaggerTaskAEComponent.builder()
                 .taskAEModule(new TaskAEModule(this))
+                .userComponent(UserComponent.buildInstance(mAppComponent))
                 .build().inject(this);
         mPresenter.setTaskType(taskType);
         mPresenter.start();

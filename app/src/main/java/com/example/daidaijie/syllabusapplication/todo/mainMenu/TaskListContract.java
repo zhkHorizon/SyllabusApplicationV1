@@ -11,6 +11,9 @@ public interface TaskListContract {
     interface presenter extends BasePresenter{
         void loadData();
         List<TaskBean> getList();
+        void DeteleTask(long TaskId);
+        void DeteleAllTask();
+        void updateTask(long TaskId,int status);
     }
     interface view extends BaseView<presenter>{
         //void showRefresh(boolean isShow);

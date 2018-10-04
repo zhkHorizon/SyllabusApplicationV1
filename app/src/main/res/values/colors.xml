@@ -19,7 +19,7 @@
 
     <color name="defaultLineColor">@color/material_grey_300</color>
 
-    <color name="defaultDarkBackground">#EBEBEB</color>
+    <color name="defaultDarkBackground">#ebebeb</color>
 
     <color name="defaultDarkBackgroundSelect">#CCCCCC</color>
 

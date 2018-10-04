@@ -1,17 +1,22 @@
 package com.example.daidaijie.syllabusapplication.todo.mainMenu;
 
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.TestRetrofit;
+import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
+import com.example.daidaijie.syllabusapplication.todo.TodoApi;
+import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
 
 /**
  * Created by 16zhchen on 2018/9/16.
  */
 @Module
 public class TaskListModule {
-    private final TaskListContract.view mView;
+    private  TaskListContract.view mView;
     public TaskListModule(TaskListContract.view view){
         mView = view;
     }
@@ -20,5 +25,12 @@ public class TaskListModule {
     @Provides
     TaskListContract.view provideView(){
         return mView;
+    }
+
+    @PerFragment
+    @Provides
+    ITaskModel provideTaskModel(@TestRetrofit Retrofit retrofit,
+                                @LoginUser IUserModel iUserModel){
+        return new TaskModel(retrofit.create(TodoApi.class),iUserModel);
     }
 }

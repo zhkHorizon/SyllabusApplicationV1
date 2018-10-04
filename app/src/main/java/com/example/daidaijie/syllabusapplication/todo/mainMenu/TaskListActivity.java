@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +18,6 @@ import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.adapter.TaskPagerAdapter;
 import com.example.daidaijie.syllabusapplication.base.BaseActivity;
 import com.example.daidaijie.syllabusapplication.bean.TaskAllBean;
-import com.example.daidaijie.syllabusapplication.todo.TaskDataComponent;
 import com.example.daidaijie.syllabusapplication.todo.addOrEditTask.TaskAEActivity;
 import com.example.daidaijie.syllabusapplication.user.UserComponent;
 import com.example.daidaijie.syllabusapplication.util.ActivityUtil;
@@ -35,8 +35,8 @@ public class TaskListActivity extends BaseActivity {
 //    ViewPager mContentViewPager;
     @BindView(R.id.tasklist_faddTask)
     FloatingActionButton mAddButton;
-    @BindView(R.id.list_contextFrame)
-    LinearLayout mContentView;
+//    @BindView(R.id.list_contextFrame)
+//    SwipeRefreshLayout mContentView;
 
     //TaskPagerAdapter mTaskPagerAdapter;
     TaskAllBean mTaskAllBean;
@@ -48,12 +48,7 @@ public class TaskListActivity extends BaseActivity {
 
         ButterKnife.bind(this);
         setupTitleBar(mToolbar);
-//        mTaskAllBean = new TaskAllBean();
-//        TaskDataComponent.destory();
-//        TaskDataComponent.newInstance(UserComponent.buildInstance(mAppComponent),mTaskAllBean);
-//        mTaskPagerAdapter = new TaskPagerAdapter(getSupportFragmentManager());
-//        mContentViewPager.setAdapter(mTaskPagerAdapter);
-//        mContentViewPager.setCurrentItem(0);
+//
         //添加fragment,可以移到init
         TaskListFragment taskListFragment =
                 (TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.list_contextFrame);
@@ -69,6 +64,7 @@ public class TaskListActivity extends BaseActivity {
                 Toast.makeText(view.getContext(),"添加任务",Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override

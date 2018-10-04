@@ -20,7 +20,6 @@ import rx.schedulers.Schedulers;
 public class LessonEvalModel implements ILessonEvalModel {
     private static final String TAG = "LessonEvalModel";
     EvalApi mEvalApi;
-    EvalBean mEvalBean;
     IUserModel mIUserModel;
     ISyllabusModel mISyllabusModel;
     public LessonEvalModel(EvalApi evalApi, ISyllabusModel iSyllabusModel){

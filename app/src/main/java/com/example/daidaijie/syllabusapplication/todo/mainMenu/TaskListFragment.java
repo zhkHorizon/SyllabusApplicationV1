@@ -1,9 +1,12 @@
 package com.example.daidaijie.syllabusapplication.todo.mainMenu;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,8 +18,10 @@ import android.widget.Toast;
 import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.adapter.TaskItemAdapter;
 import com.example.daidaijie.syllabusapplication.base.BaseFragment;
+import com.example.daidaijie.syllabusapplication.todo.addOrEditTask.TaskAEActivity;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
 import com.example.daidaijie.syllabusapplication.todo.taskDetail.TaskDetailActivity;
+import com.example.daidaijie.syllabusapplication.user.UserComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,18 +60,87 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
             @Override
             public void onItemClick(View view, int position) {
                 //点击子项后跳转
-                if(mTaskItemAdapter.getTask(position).getId()!=0){
-                    Intent intent = new Intent(getContext(), TaskDetailActivity.class);
-                    intent.putExtra("TYPE",mTaskItemAdapter.getTask(position).getId());
-                    startActivity(intent); }
-                    //Toast.makeText(getActivity(),"跳转",Toast.LENGTH_SHORT).show();
+                switch (view.getId()){
+                    case R.id.item_status:{
+                        //Toast.makeText(getContext(),"check",Toast.LENGTH_SHORT).show();
+                        AppCompatCheckBox status = (AppCompatCheckBox)view;
+                        if(status.isChecked()){
+                            mTaskListPresenter.updateTask(mTaskItemAdapter.getTask(position).getId(),1);
+                        }else{
+                            mTaskListPresenter.updateTask(mTaskItemAdapter.getTask(position).getId(),0);
+                        }
+                        mTaskItemAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                    default:{
+                        if(mTaskItemAdapter.getTask(position).getId()!=0){
+                            Intent intent = new Intent(getContext(), TaskDetailActivity.class);
+                            intent.putExtra("TYPE",mTaskItemAdapter.getTask(position).getId());
+                            startActivity(intent); }
+                    }
+                }
+
+            }
+        });
+        mTaskItemAdapter.setOnItemLongClickListener(new TaskItemAdapter.OnItemLongClickListener(){
+            @Override
+            public void onItemLongClick(final View view, final int position) {
+                final String items[] ={"编辑","删除"};
+                AlertDialog dialog = new AlertDialog.Builder(view.getContext())
+                        .setTitle(mTaskItemAdapter.getTask(position).getTitle())
+                        .setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i){
+                                    case 0:{
+                                        //编辑
+                                        Intent intent = new Intent(getContext(), TaskAEActivity.class);
+                                        intent.putExtra("TYPE",mTaskItemAdapter.getTask(position).getId());
+                                        startActivity(intent);
+                                    }break;
+                                    case 1:{
+                                        AlertDialog dia = new AlertDialog.Builder(view.getContext())
+                                                .setMessage("是否删除 "+mTaskItemAdapter.getTask(position).getTitle())
+                                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        mTaskListPresenter.DeteleTask(mTaskItemAdapter.getTask(position).getId());
+                                                        dialogInterface.dismiss();
+                                                        Toast.makeText(view.getContext(),"删除成功",Toast.LENGTH_SHORT).show();
+                                                        mTaskItemAdapter.updateData(mTaskListPresenter.getList());
+                                                        mTaskItemAdapter.notifyDataSetChanged();
+                                                    }
+                                                }).create();
+                                        dia.show();
+                                    }
+                                }
+                            }
+                        })
+                        .create();
+                dialog.show();
             }
         });
 
+
         DaggerTaskListComponent.builder()
+                .userComponent(UserComponent.buildInstance(mAppComponent))
                 .taskListModule(new TaskListModule(this))
                 .build().inject(this);
 
+        final SwipeRefreshLayout mContentView = (SwipeRefreshLayout) getActivity().findViewById(R.id.list_contextFrame);
+        mContentView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mContentView.setRefreshing(false);
+                mTaskListPresenter.loadData();
+            }
+        });
 
     }
 
@@ -86,8 +160,6 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        //TODO
-        //在这边读取数据
     }
 
 
@@ -103,7 +175,4 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
         mTaskItemAdapter.updateData(taskBeen);
     }
 
-    public void refreshTask(){
-        showList(mTaskListPresenter.getList());
-    }
 }
