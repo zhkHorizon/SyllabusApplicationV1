@@ -20,6 +20,15 @@
         <item name="actionMenuTextColor">@color/material_white</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="drawerArrowStyle">@style/left_Drawer_Arrow_Style</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
+
+    <!--<style name="OverflowMenuStyle" parent="Widget.AppCompat.PopupMenu.Overflow">-->
+        <!--<item name="overlapAnchor">false</item>-->
+    <!--</style>-->
+    <style name="OverflowMenuStyle" parent="@style/ThemeOverlay.AppCompat">
+        <!-- 是否覆盖overflow按钮，默认为true，即盖住Toolbar -->
+        <item name="overlapAnchor">false</item>
     </style>
 
     <style name="left_Drawer_Arrow_Style" parent="Widget.AppCompat.DrawerArrowToggle">

@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -186,6 +187,20 @@ public class MainActivity extends BaseActivity implements
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_recommend: {
+                        Intent intent = new Intent(MainActivity.this, RecomActivity.class);
+                        startActivity(intent);
+                    }
+                }
+                return true;
+            }
+        });
+
         if (mNavView != null) {
             mNavView.setNavigationItemSelectedListener(this);
         }
@@ -219,6 +234,12 @@ public class MainActivity extends BaseActivity implements
         } else {
             stopStreamListen();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
     }
 
     @Override
@@ -526,8 +547,8 @@ public class MainActivity extends BaseActivity implements
             @Override
             public void onClick(View view) {
                 //TODO,功能测试
-                //Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
-                Intent intent = new Intent(MainActivity.this, RecomActivity.class);
+                Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+                //Intent intent = new Intent(MainActivity.this, RecomActivity.class);
                 startActivity(intent);
             }
         });
