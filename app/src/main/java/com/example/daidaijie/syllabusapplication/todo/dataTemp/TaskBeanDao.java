@@ -23,11 +23,12 @@ public class TaskBeanDao extends AbstractDao<TaskBean, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
-        public final static Property Context = new Property(2, String.class, "context", false, "CONTEXT");
-        public final static Property Status = new Property(3, int.class, "status", false, "STATUS");
-        public final static Property IsAlarm = new Property(4, boolean.class, "isAlarm", false, "IS_ALARM");
-        public final static Property Time = new Property(5, java.util.Date.class, "time", false, "TIME");
+        public final static Property ServerID = new Property(1, int.class, "serverID", false, "SERVER_ID");
+        public final static Property Title = new Property(2, String.class, "title", false, "TITLE");
+        public final static Property Context = new Property(3, String.class, "context", false, "CONTEXT");
+        public final static Property Status = new Property(4, int.class, "status", false, "STATUS");
+        public final static Property IsAlarm = new Property(5, boolean.class, "isAlarm", false, "IS_ALARM");
+        public final static Property Time = new Property(6, java.util.Date.class, "time", false, "TIME");
     };
 
 
@@ -44,11 +45,12 @@ public class TaskBeanDao extends AbstractDao<TaskBean, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"TASK_BEAN\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"TITLE\" TEXT NOT NULL ," + // 1: title
-                "\"CONTEXT\" TEXT," + // 2: context
-                "\"STATUS\" INTEGER NOT NULL ," + // 3: status
-                "\"IS_ALARM\" INTEGER NOT NULL ," + // 4: isAlarm
-                "\"TIME\" INTEGER);"); // 5: time
+                "\"SERVER_ID\" INTEGER NOT NULL ," + // 1: serverID
+                "\"TITLE\" TEXT," + // 2: title
+                "\"CONTEXT\" TEXT," + // 3: context
+                "\"STATUS\" INTEGER NOT NULL ," + // 4: status
+                "\"IS_ALARM\" INTEGER NOT NULL ," + // 5: isAlarm
+                "\"TIME\" INTEGER);"); // 6: time
     }
 
     /** Drops the underlying database table. */
@@ -65,18 +67,23 @@ public class TaskBeanDao extends AbstractDao<TaskBean, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindString(2, entity.getTitle());
+        stmt.bindLong(2, entity.getServerID());
+ 
+        String title = entity.getTitle();
+        if (title != null) {
+            stmt.bindString(3, title);
+        }
  
         String context = entity.getContext();
         if (context != null) {
-            stmt.bindString(3, context);
+            stmt.bindString(4, context);
         }
-        stmt.bindLong(4, entity.getStatus());
-        stmt.bindLong(5, entity.getIsAlarm() ? 1L: 0L);
+        stmt.bindLong(5, entity.getStatus());
+        stmt.bindLong(6, entity.getIsAlarm() ? 1L: 0L);
  
         java.util.Date time = entity.getTime();
         if (time != null) {
-            stmt.bindLong(6, time.getTime());
+            stmt.bindLong(7, time.getTime());
         }
     }
 
@@ -88,18 +95,23 @@ public class TaskBeanDao extends AbstractDao<TaskBean, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindString(2, entity.getTitle());
+        stmt.bindLong(2, entity.getServerID());
+ 
+        String title = entity.getTitle();
+        if (title != null) {
+            stmt.bindString(3, title);
+        }
  
         String context = entity.getContext();
         if (context != null) {
-            stmt.bindString(3, context);
+            stmt.bindString(4, context);
         }
-        stmt.bindLong(4, entity.getStatus());
-        stmt.bindLong(5, entity.getIsAlarm() ? 1L: 0L);
+        stmt.bindLong(5, entity.getStatus());
+        stmt.bindLong(6, entity.getIsAlarm() ? 1L: 0L);
  
         java.util.Date time = entity.getTime();
         if (time != null) {
-            stmt.bindLong(6, time.getTime());
+            stmt.bindLong(7, time.getTime());
         }
     }
 
@@ -112,11 +124,12 @@ public class TaskBeanDao extends AbstractDao<TaskBean, Long> {
     public TaskBean readEntity(Cursor cursor, int offset) {
         TaskBean entity = new TaskBean( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getString(offset + 1), // title
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // context
-            cursor.getInt(offset + 3), // status
-            cursor.getShort(offset + 4) != 0, // isAlarm
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)) // time
+            cursor.getInt(offset + 1), // serverID
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // title
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // context
+            cursor.getInt(offset + 4), // status
+            cursor.getShort(offset + 5) != 0, // isAlarm
+            cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)) // time
         );
         return entity;
     }
@@ -124,11 +137,12 @@ public class TaskBeanDao extends AbstractDao<TaskBean, Long> {
     @Override
     public void readEntity(Cursor cursor, TaskBean entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setTitle(cursor.getString(offset + 1));
-        entity.setContext(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setStatus(cursor.getInt(offset + 3));
-        entity.setIsAlarm(cursor.getShort(offset + 4) != 0);
-        entity.setTime(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
+        entity.setServerID(cursor.getInt(offset + 1));
+        entity.setTitle(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setContext(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setStatus(cursor.getInt(offset + 4));
+        entity.setIsAlarm(cursor.getShort(offset + 5) != 0);
+        entity.setTime(cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)));
      }
     
     @Override

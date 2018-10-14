@@ -1,24 +1,27 @@
 package com.example.daidaijie.syllabusapplication.todo.mainMenu;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
-import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
+import com.example.daidaijie.syllabusapplication.todo.ITaskModel;
+import com.example.daidaijie.syllabusapplication.todo.bean.HttpBean;
+import com.example.daidaijie.syllabusapplication.todo.bean.TODOAllBean;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.DataManager;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBeanFromNet;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
-import rx.functions.Action1;
 
 /**
  * Created by 16zhchen on 2018/9/14.
@@ -36,6 +39,7 @@ public class TaskListPresenter implements TaskListContract.presenter {
     private IUserModel mIUserModel;
     private DataManager dataManager;
 
+    List<TaskBean> list;
 
     @Inject
     @PerFragment
@@ -48,30 +52,28 @@ public class TaskListPresenter implements TaskListContract.presenter {
     @Override
     public void loadData() {
 
-        mTaskModel.getTaskFromNet()
-                .subscribe(new Subscriber<List<TaskBeanFromNet>>() {
+        list = new ArrayList<>();
+        mTaskModel.getAllTaskFromNet()
+                .subscribe(new Subscriber<TODOAllBean.DataBean.EvaListBean>() {
                     @Override
                     public void onCompleted() {
-
+                        DeteleAllTask();
+                        dataManager.insertAll(list);
+                        mView.showList(dataManager.getAllTasks());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
-                        mView.showFailMessage("LOADINGERORR");
+                        showErrorMsg(e);
                     }
 
                     @Override
-                    public void onNext(List<TaskBeanFromNet> taskBeanFromNets) {
-                        List<TaskBean> test = new ArrayList<TaskBean>();
-                        for(TaskBeanFromNet temp:taskBeanFromNets){
-                            TaskBean t1 = new TaskBean(null,temp.getTitle(),temp.getContext(),temp.getStatus(),false,null);
-                            test.add(t1);
-                        }
-                        DeteleAllTask();
-                        dataManager.insertAll(test);
-                        mView.showList(dataManager.getAllTasks());
-
+                    public void onNext(TODOAllBean.DataBean.EvaListBean evaListBean) {
+                        int status = evaListBean.isStatus()?1:0;
+                        TaskBean t = new TaskBean(null,evaListBean.getId(),
+                                evaListBean.getTitle(),evaListBean.getContent(),
+                                status,false ,null);
+                        list.add(t);
                     }
                 });
     }
@@ -94,24 +96,23 @@ public class TaskListPresenter implements TaskListContract.presenter {
     }
     @Override
     public void DeteleTask(long TaskId){
+        int taskID = dataManager.getTaskById(TaskId).getServerID();
         dataManager.deleteTaskById(TaskId);
-        //TODO
-        mTaskModel.deleteTask((int)TaskId)
-                .subscribe(new Subscriber<HttpResult<String>>() {
+        mTaskModel.deleteTask(taskID)
+                .subscribe(new Subscriber<HttpBean>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: delete");
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        showErrorMsg(e);
                     }
 
                     @Override
-                    public void onNext(HttpResult<String> voidHttpResult) {
-                        Log.d(TAG, "onNext: "+voidHttpResult.getMessage());
+                    public void onNext(HttpBean httpBean) {
+                        Log.d(TAG, "onNext: "+httpBean.getStatus());
                     }
                 });
     }
@@ -126,23 +127,51 @@ public class TaskListPresenter implements TaskListContract.presenter {
         TaskBean  task = dataManager.getTaskById(TaskId);
         task.setStatus(status);
         dataManager.updateTasks(task);
-        mTaskModel.updateTask(task.getTitle(),task.getContext(),task.getStatus())
-                .subscribe(new Subscriber<HttpResult<String>>() {
+//        mTaskModel.updateTask(task.getTitle(),task.getContext(),task.getStatus())
+//                .subscribe(new Subscriber<HttpResult<String>>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Log.d(TAG, "onCompleted: ");
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onNext(HttpResult<String> voidHttpResult) {
+//                        Log.d(TAG, "onNext: "+voidHttpResult.getMessage());
+//                    }
+//                });
+        mTaskModel.updateStatus(task.getServerID(),status)
+                .subscribe(new Subscriber<HttpBean>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: ");
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        showErrorMsg(e);
                     }
 
                     @Override
-                    public void onNext(HttpResult<String> voidHttpResult) {
-                        Log.d(TAG, "onNext: "+voidHttpResult.getMessage());
+                    public void onNext(HttpBean httpBean) {
+                        Log.d(TAG, "onNext: "+httpBean.getStatus());
                     }
                 });
+    }
+
+    private void showErrorMsg(Throwable e){
+        if(e instanceof HttpException){
+            ResponseBody body =  ((HttpException) e).response().errorBody();
+            try{
+                mView.showFailMessage(body.string());
+            }catch (IOException IOe) {
+                IOe.printStackTrace();
+            }
+        }
     }
 }

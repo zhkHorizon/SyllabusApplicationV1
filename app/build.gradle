@@ -81,7 +81,7 @@ andResGuard {
 }
 
 greendao {
-    schemaVersion 2 // 数据库版本号
+    schemaVersion 3 // 数据库版本号
     daoPackage 'com.example.daidaijie.syllabusapplication.todo.dataTemp'//greenDao 自动生成的代码保存的包名
     targetGenDir 'src/main/java' //自动生成的代码存储的路径，默认是 build/generated/source/greendao.
 }

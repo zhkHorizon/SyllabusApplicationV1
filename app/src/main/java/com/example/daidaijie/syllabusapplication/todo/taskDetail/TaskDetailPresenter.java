@@ -5,13 +5,18 @@ import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
+import com.example.daidaijie.syllabusapplication.todo.bean.HttpBean;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.DataManager;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
-import com.example.daidaijie.syllabusapplication.todo.mainMenu.ITaskModel;
+import com.example.daidaijie.syllabusapplication.todo.ITaskModel;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
 public class TaskDetailPresenter implements TaskDetailContract.Presenter{
@@ -33,23 +38,23 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter{
 
     @Override
     public void deleteTask() {
-        dataManager.deleteTaskById(new Long(mTaskID));
-        mTaskModel.deleteTask((int)mTaskID)
-                .subscribe(new Subscriber<HttpResult<String>>() {
+        int taskID = dataManager.getTaskById(mTaskID).getServerID();
+        dataManager.deleteTaskById(mTaskID);
+        mTaskModel.deleteTask(taskID)
+                .subscribe(new Subscriber<HttpBean>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: delete");
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        showErrorMsg(e);
                     }
 
                     @Override
-                    public void onNext(HttpResult<String> voidHttpResult) {
-                        Log.d(TAG, "onNext: "+voidHttpResult.getMessage());
+                    public void onNext(HttpBean httpBean) {
+                        Log.d(TAG, "onNext: "+httpBean.getStatus());
                     }
                 });
         mView.showMsg("已删除");
@@ -63,5 +68,16 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter{
     }
     public void setTASK_ID(long TASK_ID) {
         mTaskID = TASK_ID;
+    }
+
+    private void showErrorMsg(Throwable e){
+        if(e instanceof HttpException){
+            ResponseBody body =  ((HttpException) e).response().errorBody();
+            try{
+                mView.showMsg(body.string());
+            }catch (IOException IOe) {
+                IOe.printStackTrace();
+            }
+        }
     }
 }

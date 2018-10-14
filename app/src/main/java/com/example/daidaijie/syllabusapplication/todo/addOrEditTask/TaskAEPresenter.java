@@ -1,24 +1,23 @@
 package com.example.daidaijie.syllabusapplication.todo.addOrEditTask;
 
-import android.app.ListActivity;
-import android.app.ListFragment;
 import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
+import com.example.daidaijie.syllabusapplication.todo.bean.HttpBean;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.DataManager;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
-import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBeanFromNet;
-import com.example.daidaijie.syllabusapplication.todo.mainMenu.ITaskModel;
+import com.example.daidaijie.syllabusapplication.todo.ITaskModel;
 import com.example.daidaijie.syllabusapplication.todo.mainMenu.TaskListActivity;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
 /**
@@ -48,56 +47,72 @@ public class TaskAEPresenter implements TaskAEContract.Presenter {
     public void saveTaskForNew(String title, String content, boolean isAlarm, Date alarmTime) {
 
         TaskBean task = new TaskBean(
-                null,title,content,defaultState,isAlarm,alarmTime
+                null,0,title,content,defaultState,isAlarm,alarmTime
         );
+
         long temp = dataManager.addTasks(task);
         Log.d(TAG, "saveTaskForNew: DataManager:"+String.valueOf(temp));
         mView.showMsg("新建成功");
-        //TODO，还要传入用户UID
-        mTaskModel.addTask(title,content,defaultState)
-                .subscribe(new Subscriber<HttpResult<String>>() {
+        mTaskModel.addNewTask(title,content)
+                .subscribe(new Subscriber<HttpBean>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: ");
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        showErrorMsg(e);
                     }
 
                     @Override
-                    public void onNext(HttpResult<String> voidHttpResult) {
-                        Log.d(TAG, "onNext: "+voidHttpResult.getMessage());
+                    public void onNext(HttpBean httpBean) {
+                        Log.d(TAG, "onNext: "+httpBean.getStatus());
                     }
                 });
-
         mView.closePage();
     }
 
     @Override
     public void saveTaskForEdit(String title, String content, int state, boolean isAlarm, Date alarmTime) {
+        int taskID = dataManager.getTaskById(taskType).getServerID();
         TaskBean task = new TaskBean(
-                taskType,title,content,state,isAlarm,alarmTime
+                taskType,taskID,title,content,state,isAlarm,alarmTime
         );
         dataManager.updateTasks(task);
         mView.showMsg("修改成功");
-        mTaskModel.updateTask(task.getTitle(),task.getContext(),task.getStatus())
-                .subscribe(new Subscriber<HttpResult<String>>() {
+        mTaskModel.editTask(task.getServerID(),task.getTitle(),task.getContext())
+                .subscribe(new Subscriber<HttpBean>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted: ");
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        showErrorMsg(e);
                     }
 
                     @Override
-                    public void onNext(HttpResult<String> voidHttpResult) {
-                        Log.d(TAG, "onNext: "+voidHttpResult.getMessage());
+                    public void onNext(HttpBean httpBean) {
+                        Log.d(TAG, "onNext: "+httpBean.getStatus());
+                    }
+                });
+        mTaskModel.updateStatus(task.getServerID(),task.getStatus())
+                .subscribe(new Subscriber<HttpBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showErrorMsg(e);
+                    }
+
+                    @Override
+                    public void onNext(HttpBean httpBean) {
+                        Log.d(TAG, "onNext: "+httpBean.getStatus());
                     }
                 });
         mView.closePage();
@@ -125,5 +140,17 @@ public class TaskAEPresenter implements TaskAEContract.Presenter {
     @Override
     public long getTaskNum() {
         return dataManager.getAllTasks().size();
+    }
+
+
+    private void showErrorMsg(Throwable e){
+        if(e instanceof HttpException){
+            ResponseBody body =  ((HttpException) e).response().errorBody();
+            try{
+                mView.showMsg(body.string());
+            }catch (IOException IOe) {
+                IOe.printStackTrace();
+            }
+        }
     }
 }

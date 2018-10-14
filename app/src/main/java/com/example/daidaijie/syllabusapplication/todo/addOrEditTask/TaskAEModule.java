@@ -4,8 +4,8 @@ import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
 import com.example.daidaijie.syllabusapplication.todo.TodoApi;
-import com.example.daidaijie.syllabusapplication.todo.mainMenu.ITaskModel;
-import com.example.daidaijie.syllabusapplication.todo.mainMenu.TaskModel;
+import com.example.daidaijie.syllabusapplication.todo.ITaskModel;
+import com.example.daidaijie.syllabusapplication.todo.TaskModel;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
 import dagger.Module;

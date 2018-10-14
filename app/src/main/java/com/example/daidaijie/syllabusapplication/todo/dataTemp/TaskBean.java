@@ -16,11 +16,13 @@ public class TaskBean {
     private Long id;
 
     @NotNull
+    private int serverID;
     private String title;
     private String context;
     private int status;
     private boolean isAlarm;
     private Date time;//提醒时间
+
     public Date getTime() {
         return this.time;
     }
@@ -57,10 +59,19 @@ public class TaskBean {
     public void setIsAlarm(boolean isAlarm) {
         this.isAlarm = isAlarm;
     }
-    @Generated(hash = 1422662477)
-    public TaskBean(Long id, @NotNull String title, String context, int status,
-            boolean isAlarm, Date time) {
+    public int getServerID() {
+        return this.serverID;
+    }
+    public void setServerID(int serverID) {
+        this.serverID = serverID;
+    }
+
+
+    
+@Generated(hash = 958152791)
+    public TaskBean(Long id, int serverID, String title, String context, int status, boolean isAlarm, Date time) {
         this.id = id;
+        this.serverID = serverID;
         this.title = title;
         this.context = context;
         this.status = status;

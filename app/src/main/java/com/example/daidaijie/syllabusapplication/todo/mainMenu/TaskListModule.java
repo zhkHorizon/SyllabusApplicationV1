@@ -2,8 +2,9 @@ package com.example.daidaijie.syllabusapplication.todo.mainMenu;
 
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.TestRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
-import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
+import com.example.daidaijie.syllabusapplication.todo.ITaskModel;
+import com.example.daidaijie.syllabusapplication.todo.TaskModel;
 import com.example.daidaijie.syllabusapplication.todo.TodoApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
