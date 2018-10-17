@@ -1,4 +1,4 @@
-package com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation;
+package com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.bean;
 
 /**
  * Created by 16zhchen on 2018/9/22.

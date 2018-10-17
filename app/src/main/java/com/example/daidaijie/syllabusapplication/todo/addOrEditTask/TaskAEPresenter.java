@@ -2,10 +2,9 @@ package com.example.daidaijie.syllabusapplication.todo.addOrEditTask;
 
 import android.util.Log;
 
-import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
 import com.example.daidaijie.syllabusapplication.todo.bean.HttpBean;
-import com.example.daidaijie.syllabusapplication.todo.dataTemp.DataManager;
+import com.example.daidaijie.syllabusapplication.todo.dataTemp.TodoDataManager;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
 import com.example.daidaijie.syllabusapplication.todo.ITaskModel;
 import com.example.daidaijie.syllabusapplication.todo.mainMenu.TaskListActivity;
@@ -25,7 +24,7 @@ import rx.Subscriber;
  */
 
 public class TaskAEPresenter implements TaskAEContract.Presenter {
-    DataManager dataManager;
+    TodoDataManager dataManager;
     private TaskAEContract.View mView;
     private final int defaultState = 0;
     private long taskType = 0;
@@ -37,7 +36,7 @@ public class TaskAEPresenter implements TaskAEContract.Presenter {
     @Inject
     @PerFragment
     public TaskAEPresenter(ITaskModel iTaskModel,TaskAEContract.View view){
-        dataManager = DataManager.getInstance();
+        dataManager = TodoDataManager.getInstance();
         mView = view;
         mTaskModel  = iTaskModel;
         mIUserModel = mTaskModel.getmIUserModel();
@@ -57,7 +56,8 @@ public class TaskAEPresenter implements TaskAEContract.Presenter {
                 .subscribe(new Subscriber<HttpBean>() {
                     @Override
                     public void onCompleted() {
-
+                        mView.closePage();
+                        //读取返回的id，更新数据库
                     }
 
                     @Override
@@ -70,7 +70,7 @@ public class TaskAEPresenter implements TaskAEContract.Presenter {
                         Log.d(TAG, "onNext: "+httpBean.getStatus());
                     }
                 });
-        mView.closePage();
+
     }
 
     @Override
@@ -102,7 +102,7 @@ public class TaskAEPresenter implements TaskAEContract.Presenter {
                 .subscribe(new Subscriber<HttpBean>() {
                     @Override
                     public void onCompleted() {
-
+                        mView.closePage();
                     }
 
                     @Override
@@ -115,7 +115,7 @@ public class TaskAEPresenter implements TaskAEContract.Presenter {
                         Log.d(TAG, "onNext: "+httpBean.getStatus());
                     }
                 });
-        mView.closePage();
+
     }
 
     @Override

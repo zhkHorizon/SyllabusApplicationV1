@@ -1,20 +1,35 @@
 package com.example.daidaijie.syllabusapplication.syllabus;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
 import com.example.daidaijie.syllabusapplication.bean.Syllabus;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
+import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.EvalApi;
+import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.bean.EvalAllBean;
+import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.local.EvalBean;
+import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.local.EvalDataManager;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
+import okhttp3.ResponseBody;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by daidaijie on 2016/10/19.
@@ -29,6 +44,8 @@ public class SyllabusModel implements ISyllabusModel {
     IUserModel mIUserModel;
 
     Realm mRealm;
+
+
 
     public SyllabusModel(ILoginModel ILoginModel, IUserModel IUserModel, Realm realm) {
         mILoginModel = ILoginModel;
@@ -138,5 +155,6 @@ public class SyllabusModel implements ISyllabusModel {
             onGetFailCallBack.onGetFail();
         }
     }
+
 
 }

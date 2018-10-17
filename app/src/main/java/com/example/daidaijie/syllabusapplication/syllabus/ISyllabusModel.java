@@ -26,5 +26,5 @@ public interface ISyllabusModel extends IBaseModel {
                            @Nullable OnGetFailCallBack onGetFailCallBack);
 
     IUserModel getmIUserModel();
-
+    //void getAllEval();
 }

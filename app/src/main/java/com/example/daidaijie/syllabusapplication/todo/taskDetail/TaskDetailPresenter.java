@@ -3,10 +3,9 @@ package com.example.daidaijie.syllabusapplication.todo.taskDetail;
 
 import android.util.Log;
 
-import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
 import com.example.daidaijie.syllabusapplication.todo.bean.HttpBean;
-import com.example.daidaijie.syllabusapplication.todo.dataTemp.DataManager;
+import com.example.daidaijie.syllabusapplication.todo.dataTemp.TodoDataManager;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
 import com.example.daidaijie.syllabusapplication.todo.ITaskModel;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
@@ -21,7 +20,7 @@ import rx.Subscriber;
 
 public class TaskDetailPresenter implements TaskDetailContract.Presenter{
     private long mTaskID;
-    private DataManager dataManager;
+    private TodoDataManager dataManager;
     private TaskDetailContract.View mView;
     private ITaskModel mTaskModel;
     private IUserModel mIUserModel;
@@ -30,7 +29,7 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter{
     @Inject
     @PerFragment
     public TaskDetailPresenter(ITaskModel iTaskModel,TaskDetailContract.View view){
-        dataManager = DataManager.getInstance();
+        dataManager = TodoDataManager.getInstance();
         mTaskModel  = iTaskModel;
         mIUserModel = mTaskModel.getmIUserModel();
         mView = view;

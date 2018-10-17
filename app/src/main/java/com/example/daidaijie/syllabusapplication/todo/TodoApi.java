@@ -54,7 +54,7 @@ public interface TodoApi {
                                 @Field("deadline_time") String deadlineTime,
                                 @Field("img_link") String imgLink,
                                 @Field("priority") int priority);
-    @DELETE("/api/v2/todo")
+    @DELETE("api/v2/todo")
     Observable<HttpBean> deleteTask(@Header("uid") int uid,
                                     @Header("token") String token,
                                     @Header("todoid") int todoID);

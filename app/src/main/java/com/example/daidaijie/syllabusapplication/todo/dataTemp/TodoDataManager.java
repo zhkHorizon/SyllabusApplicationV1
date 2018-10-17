@@ -8,24 +8,24 @@ import com.example.daidaijie.syllabusapplication.App;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataManager {
-    private static DataManager INSTANCE = null;
+public class TodoDataManager {
+    private static TodoDataManager INSTANCE = null;
     private TaskBeanDao taskDao;
     private List<TaskBean> tasksList;
     private App base;
     private static final String TAG = "TaskListFragment";
 
-    private DataManager(){
+    private TodoDataManager(){
         Log.d(TAG, "DataManager: ");
         base = App.getInstances();
         taskDao = base.getDaoSession().getTaskBeanDao();
         tasksList = getAllTasks();
     }
 
-    public static DataManager getInstance(){
+    public static TodoDataManager getInstance(){
         if(INSTANCE == null){
             Log.d(TAG, "getInstance: old");
-            INSTANCE  = new DataManager();
+            INSTANCE  = new TodoDataManager();
         }
         Log.d(TAG, "getInstance: new");
         return INSTANCE;

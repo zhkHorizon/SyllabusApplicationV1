@@ -138,6 +138,13 @@ public class LessonInfoActivity extends BaseActivity implements LessonInfoContra
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //刷新数据
+        mLessonInfoPresenter.getAllEval();
+    }
+
+    @Override
     public void showData(Lesson lesson) {
         GradientDrawable shape = (GradientDrawable) getResources().getDrawable(R.drawable.bg_show_classmate);
         shape.setColor(getResources().getColor(lesson.getBgColor()));

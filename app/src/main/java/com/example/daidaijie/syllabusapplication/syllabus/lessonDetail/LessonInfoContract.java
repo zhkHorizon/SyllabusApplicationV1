@@ -11,7 +11,7 @@ import com.example.daidaijie.syllabusapplication.bean.Lesson;
 public interface LessonInfoContract {
 
     interface presenter extends BasePresenter {
-
+        void getAllEval();
     }
 
     interface view extends BaseView<presenter> {

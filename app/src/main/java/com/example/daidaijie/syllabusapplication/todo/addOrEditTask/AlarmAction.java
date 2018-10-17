@@ -10,7 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.daidaijie.syllabusapplication.R;
-import com.example.daidaijie.syllabusapplication.todo.dataTemp.DataManager;
+import com.example.daidaijie.syllabusapplication.todo.dataTemp.TodoDataManager;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
 
 public class AlarmAction extends BroadcastReceiver {
@@ -22,7 +22,7 @@ public class AlarmAction extends BroadcastReceiver {
         NotificationCompat.Builder no=new NotificationCompat.Builder(context);
         //设置参数
         no.setDefaults(NotificationCompat.DEFAULT_ALL);
-        DataManager greenDaoManager = DataManager.getInstance();
+        TodoDataManager greenDaoManager = TodoDataManager.getInstance();
         long taskID = intent.getLongExtra("taskID",0);
         if(taskID == 0){
             no.setContentTitle("任务提醒");

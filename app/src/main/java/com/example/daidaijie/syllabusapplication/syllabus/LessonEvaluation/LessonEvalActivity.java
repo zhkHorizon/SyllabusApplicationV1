@@ -28,6 +28,8 @@ import com.example.daidaijie.syllabusapplication.R;
 public class LessonEvalActivity extends BaseActivity implements LessonEvalContract.view{
     @BindView(R.id.lesson_eval_submit)
     Button mSubmitButton;
+    @BindView(R.id.lesson_eval_delete)
+    Button mDeleteButton;
     @BindView(R.id.lesson_score)
     RatingBar mRatingBar;
     @BindView(R.id.lesson_eval)
@@ -64,6 +66,16 @@ public class LessonEvalActivity extends BaseActivity implements LessonEvalContra
                 mPresenter.postEval((int)mRatingBar.getRating(),mEditText.getText().toString());
             }
         });
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.deleteEval();
+            }
+        });
+        if(mPresenter.isFirst)
+            mDeleteButton.setVisibility(View.GONE);
+        else
+            mDeleteButton.setVisibility(View.VISIBLE);
     }
 
 
@@ -99,7 +111,9 @@ public class LessonEvalActivity extends BaseActivity implements LessonEvalContra
         mToolbar.setBackgroundColor(getResources().getColor(
                 lesson.getBgColor()));
         mSubmitButton.setBackgroundDrawable(shape);
+        mDeleteButton.setBackgroundDrawable(shape);
         mTitleTextView1.setText(lesson.getName());
         mTitleTextView2.setText(lesson.getTeacher());
+
     }
 }

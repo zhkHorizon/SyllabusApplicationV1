@@ -2,15 +2,13 @@ package com.example.daidaijie.syllabusapplication.todo.mainMenu;
 
 import android.util.Log;
 
-import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.bean.UserInfo;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
 import com.example.daidaijie.syllabusapplication.todo.ITaskModel;
 import com.example.daidaijie.syllabusapplication.todo.bean.HttpBean;
 import com.example.daidaijie.syllabusapplication.todo.bean.TODOAllBean;
-import com.example.daidaijie.syllabusapplication.todo.dataTemp.DataManager;
+import com.example.daidaijie.syllabusapplication.todo.dataTemp.TodoDataManager;
 import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBean;
-import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBeanFromNet;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
 import java.io.IOException;
@@ -37,7 +35,7 @@ public class TaskListPresenter implements TaskListContract.presenter {
     private TaskListContract.view mView;
     private ITaskModel mTaskModel;
     private IUserModel mIUserModel;
-    private DataManager dataManager;
+    private TodoDataManager dataManager;
 
     List<TaskBean> list;
 
@@ -83,7 +81,7 @@ public class TaskListPresenter implements TaskListContract.presenter {
     }
     @Override
     public void start() {
-        dataManager = DataManager.getInstance();
+        dataManager = TodoDataManager.getInstance();
         List<TaskBean> temp = getList();
         loadUserInfo();
         Log.d(TAG, "start: "+mUserInfo.getNickname());
@@ -127,24 +125,6 @@ public class TaskListPresenter implements TaskListContract.presenter {
         TaskBean  task = dataManager.getTaskById(TaskId);
         task.setStatus(status);
         dataManager.updateTasks(task);
-//        mTaskModel.updateTask(task.getTitle(),task.getContext(),task.getStatus())
-//                .subscribe(new Subscriber<HttpResult<String>>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        Log.d(TAG, "onCompleted: ");
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    @Override
-//                    public void onNext(HttpResult<String> voidHttpResult) {
-//                        Log.d(TAG, "onNext: "+voidHttpResult.getMessage());
-//                    }
-//                });
         mTaskModel.updateStatus(task.getServerID(),status)
                 .subscribe(new Subscriber<HttpBean>() {
                     @Override

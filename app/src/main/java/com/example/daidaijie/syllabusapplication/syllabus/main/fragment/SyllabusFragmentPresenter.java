@@ -61,7 +61,6 @@ public class SyllabusFragmentPresenter implements SyllabusFragmentContract.prese
         mView.onLoadStart();
         mISyllabusModel.getSyllabusFromNet()
                 .subscribe(new SyllabusSubscriber(true));
-
     }
 
     @Override

@@ -1,10 +1,10 @@
-package com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation;
+package com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.bean;
 
 /**
  * Created by 16zhchen on 2018/9/19.
  */
 
-public class EvalBean {
+public class EvalBeanSimple {
     private int score;
     private String content;
 

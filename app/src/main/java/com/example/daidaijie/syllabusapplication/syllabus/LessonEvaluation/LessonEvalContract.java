@@ -11,7 +11,7 @@ import com.example.daidaijie.syllabusapplication.bean.Lesson;
 public class LessonEvalContract {
     interface presenter  extends BasePresenter{
         void postEval(int score, String eval);
-
+        void deleteEval();
     }
     interface view extends BaseView<presenter>{
         void showMessage(String msg);
