@@ -1,35 +1,52 @@
 package com.example.daidaijie.syllabusapplication.recommendation;
 
-import com.example.daidaijie.syllabusapplication.bean.HttpResult;
-
-import java.util.List;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.CourseBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.HttpResultRecom;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.Q1Bean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.Q2M1Bean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.Q2M2Bean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.Q3ResultBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.TeacherBean;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 import rx.Observable;
 
 
 public interface recomApi {
-
-    @GET("RecomUnitAll1")
-    Observable<HttpResult<List<UnitBean>>> getAllUnit();
+    @FormUrlEncoded
+    @POST("api/v2/eva/fuzzy_search_1")
+    Observable<HttpResultRecom<Q1Bean<CourseBean>>> Q1_getfuzzyResultBym1(@Field("mode") int mode,
+                                                                          @Field("fuzzy_input") String keyword);
+    @FormUrlEncoded
+    @POST("api/v2/eva/fuzzy_search_1")
+    Observable<HttpResultRecom<Q1Bean<TeacherBean>>> Q1_getfuzzyResultBym2(@Field("mode") int mode,
+                                                                           @Field("fuzzy_input") String keyword);
 
     @FormUrlEncoded
-    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
-    @POST("RecomUnitAll3")
-    Observable<HttpResult<List<ClassDetailBean>>> getClassDetailByClassName(@Field("className") String className);
+    @POST("api/v2/eva/fuzzy_search_1")
+    Observable<HttpResultRecom<Q1Bean<String>>> Q1_getfuzzyResultBym3(@Field("mode") int mode,
+                                                                      @Field("fuzzy_input") String keyword);
 
-    @GET("RecomUnitAll2")
-    Observable<HttpResult<List<SearchClassResultBean>>> getResultFromUnit(@Query("TYPE")int type,
-                                                                            @Query("UnitID") int unitID);
+    //规范参数用
     @FormUrlEncoded
-    @Headers("Content-Type:application/x-www-form-urlencoded; charset=utf-8")
-    @POST("RecomUnitAll2")
-    Observable<HttpResult<List<SearchClassResultBean>>> getResultFromSearch(@Field("TYPE")int type,@Field("keyword") String text);
+    @POST("api/v2/eva/fuzzy_search_2")
+    Observable<HttpResultRecom<Q2M1Bean>> Q2_getDetailResultBym1(@Field("mode") int mode,
+                                                                 @Field("cid") int cid);
 
-
+    //规范参数用
+    @FormUrlEncoded
+    @POST("api/v2/eva/fuzzy_search_2")
+    Observable<HttpResultRecom<Q2M2Bean>> Q2_getDetailResultBym2(@Field("mode") int mode,
+                                                                 @Field("teacher_id") int teacherID);
+    //规范参数用
+    @FormUrlEncoded
+    @POST("api/v2/eva/fuzzy_search_2")
+    Observable<HttpResultRecom<Q1Bean<CourseBean>>> Q2_getDetailResultBym3(@Field("mode") int mode,
+                                                                           @Field("department") String department);
+    @FormUrlEncoded
+    @POST("api/v2/eva/fuzzy_search_3")
+    Observable<Q3ResultBean> Q3_getScore(@Field("cid") int cid,
+                                         @Field("teacher_id") int teacherID);
 }

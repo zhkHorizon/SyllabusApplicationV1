@@ -4,19 +4,20 @@ import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 import com.example.daidaijie.syllabusapplication.recommendation.IRecomModel;
-import com.example.daidaijie.syllabusapplication.recommendation.SearchClassResultBean;
-import com.example.daidaijie.syllabusapplication.recommendation.UnitBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.CourseBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.Q3ResultBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.TeacherBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.finalResultBean;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * Created by 16zhchen on 2018/10/4.
@@ -25,7 +26,8 @@ import rx.functions.Func1;
 public class SearchListPrsenter implements SearchListContract.presenter{
     private IRecomModel mRecomModel;
     private SearchListContract.view mView;
-    private List<SearchClassResultBean> list ;
+    private List<finalResultBean> list ;
+    finalResultBean bean;
     private static final String TAG = "SearchListPrsenter";
 
     @Inject
@@ -40,35 +42,64 @@ public class SearchListPrsenter implements SearchListContract.presenter{
         list = new ArrayList<>();
     }
 
+
     @Override
-    public void loadDataForUnit(int UnitID) {
-        Log.d(TAG, "loadDataForUnit: UNITID"+UnitID);
+    public void showFinalResultByCourse(final CourseBean course) {
         list.clear();
-        mRecomModel.getResultFromUnit(UnitID)
-                .subscribe(new Subscriber<SearchClassResultBean>() {
+        mRecomModel.getOneCourseAllTeacherByQ2M1(course.getCid())
+                .subscribe(new Subscriber<TeacherBean>() {
                     @Override
                     public void onCompleted() {
-                        mView.showList(list);
+                        Log.d(TAG, "onCompleted: ");
+                        if(list.size()==0){
+                            mView.showMsg("没有找到相关条目");
+                            mView.closePage();
+                        }else
+                            mView.showList(list);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d(TAG, "onError: length");
+                        e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(SearchClassResultBean searchClassResultBean) {
-                        list.add(searchClassResultBean);
+                    public void onNext(TeacherBean teacherBean) {
+                        Log.d(TAG, "onNext: "+teacherBean.getName());
+                        bean = new finalResultBean();
+                        bean.setCourse_id(course.getCourse_id());
+                        bean.setCourse_name(course.getCourse_name());
+                        bean.setCredit(course.getCredit());
+                        bean.setDepartment(course.getDepartment());
+                        bean.setName(teacherBean.getName());
+                        mRecomModel.getScore(course.getCid(),teacherBean.getTeacher_id())
+                                .subscribe(new Subscriber<Q3ResultBean>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        Log.d(TAG, "onCompleted: ");
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        showErrorMsg(e);
+                                    }
+
+                                    @Override
+                                    public void onNext(Q3ResultBean q3ResultBean) {
+                                        bean.setAve_score(q3ResultBean.getAve_score());
+                                    }
+                                });
+                        list.add(bean);
                     }
                 });
     }
 
     @Override
-    public void loadDataForSearch(String text) {
+    public void showFinalResultByTeacher(final TeacherBean teacher) {
         list.clear();
-        mRecomModel.getResultFromSearch(text)
-
-                .subscribe(new Subscriber<SearchClassResultBean>() {
+        mRecomModel.getOneThAllCourseByQ2M2(teacher.getTeacher_id())
+                .subscribe(new Subscriber<CourseBean>() {
                     @Override
                     public void onCompleted() {
                         mView.showList(list);
@@ -76,15 +107,47 @@ public class SearchListPrsenter implements SearchListContract.presenter{
 
                     @Override
                     public void onError(Throwable e) {
-
+                        showErrorMsg(e);
                     }
 
                     @Override
-                    public void onNext(SearchClassResultBean searchClassResultBean) {
-                        list.add(searchClassResultBean);
+                    public void onNext(CourseBean courseBean) {
+                        bean  = new finalResultBean();
+                        bean.setName(teacher.getName());
+                        bean.setCourse_id(courseBean.getCourse_id());
+                        bean.setCourse_name(courseBean.getCourse_name());
+                        bean.setCredit(courseBean.getCredit());
+                        bean.setDepartment(courseBean.getDepartment());
+                        mRecomModel.getScore(courseBean.getCid(),teacher.getTeacher_id())
+                                .subscribe(new Subscriber<Q3ResultBean>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        Log.d(TAG, "onCompleted: ");
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        showErrorMsg(e);
+                                    }
+
+                                    @Override
+                                    public void onNext(Q3ResultBean q3ResultBean) {
+                                        bean.setAve_score(q3ResultBean.getAve_score());
+                                    }
+                                });
+                        list.add(bean);
                     }
                 });
+    }
 
-
+    private void showErrorMsg(Throwable e){
+        if(e instanceof HttpException){
+            ResponseBody body =  ((HttpException) e).response().errorBody();
+            try{
+                mView.showMsg(body.string());
+            }catch (IOException IOe) {
+                IOe.printStackTrace();
+            }
+        }
     }
 }

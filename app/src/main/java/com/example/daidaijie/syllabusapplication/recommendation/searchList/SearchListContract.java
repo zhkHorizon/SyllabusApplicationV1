@@ -2,7 +2,9 @@ package com.example.daidaijie.syllabusapplication.recommendation.searchList;
 
 import com.example.daidaijie.syllabusapplication.base.BasePresenter;
 import com.example.daidaijie.syllabusapplication.base.BaseView;
-import com.example.daidaijie.syllabusapplication.recommendation.SearchClassResultBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.CourseBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.TeacherBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.finalResultBean;
 import com.example.daidaijie.syllabusapplication.recommendation.mainMenu.RecomContract;
 
 import java.util.List;
@@ -13,10 +15,12 @@ import java.util.List;
 
 public interface SearchListContract {
     interface presenter  extends BasePresenter {
-        void loadDataForUnit(int UnitID);
-        void loadDataForSearch(String text) ;
+        void showFinalResultByCourse(CourseBean course);
+        void showFinalResultByTeacher(TeacherBean teacher);
     }
     interface view extends BaseView<RecomContract.presenter> {
-        void showList(List<SearchClassResultBean> unitBeen);
+        void showList(List<finalResultBean> unitBeen);
+        void showMsg(String Msg);
+        void closePage();
     }
 }

@@ -1,20 +1,21 @@
 package com.example.daidaijie.syllabusapplication.recommendation.searchList;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.base.BaseActivity;
-import com.example.daidaijie.syllabusapplication.recommendation.ClassDetail.ClassDetailAcvitity;
-import com.example.daidaijie.syllabusapplication.recommendation.SearchClassResultBean;
-import com.example.daidaijie.syllabusapplication.recommendation.UnitBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.CourseBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.TeacherBean;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.finalResultBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,8 @@ public class SearchListActivity extends BaseActivity implements SearchListContra
     SearchItemAdapter mAdapter;
     @Inject
     SearchListPrsenter mPresenter;
+    Object bean;
+    private int mode;
 
     private static final String TAG = "SearchListActivity";
 
@@ -41,46 +44,66 @@ public class SearchListActivity extends BaseActivity implements SearchListContra
         super.onCreate(savedInstanceState);
         setupTitleBar(mToolBar);
 
-        mAdapter = new SearchItemAdapter(new ArrayList<SearchClassResultBean>());
+        mAdapter = new SearchItemAdapter(new ArrayList<finalResultBean>());
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         mRecycleView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new SearchItemAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //Toast.makeText(view.getContext(),"search",Toast.LENGTH_SHORT).show();
-                //TODO,修改为课程详细页面
-                Intent intent = new Intent(SearchListActivity.this, ClassDetailAcvitity.class);
-                intent.putExtra("CLASSNAME",mAdapter.getClassName(position));
-                startActivity(intent);
-            }
-        });
-
+//        mAdapter.setOnItemClickListener(new SearchItemAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//            }
+//        });
+        EventBus.getDefault().register(this);
         DaggerSearchListComponnent.builder()
                 .appComponent(mAppComponent)
                 .searchListModule(new SearchListModule(this))
                 .build().inject(this);
 
         Intent intent = getIntent();
-        int type = intent.getIntExtra("TYPE",0);
+        mode = intent.getIntExtra("MODE",0);
         mPresenter.start();
-        if(type==0){
-            //按单位搜索
-            Log.d(TAG, "onCreate: UNITID"+intent.getIntExtra("text",0));
-            mPresenter.loadDataForUnit(intent.getIntExtra("text",0));
-        }else{
-            //搜索查找
-            mPresenter.loadDataForSearch(intent.getStringExtra("text"));
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mode==1){
+            mPresenter.showFinalResultByCourse((CourseBean)bean);
+        }else if(mode ==2){
+            mPresenter.showFinalResultByTeacher((TeacherBean)bean);
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void Event(Object bean){
+        this.bean = bean;
+    }
 
     @Override
-    public void showList(List<SearchClassResultBean> Bean) {
+    public void showMsg(String Msg) {
+        Toast.makeText(this,Msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showList(List<finalResultBean> Bean) {
         mAdapter.updateData(Bean);
     }
 
     @Override
     protected int getContentView() {
         return R.layout.activity_recom_list;
+    }
+
+    @Override
+    public void closePage() {
+        this.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 }

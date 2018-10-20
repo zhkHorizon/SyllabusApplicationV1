@@ -43,14 +43,29 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/recom_search"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_clouds"
-            app:defaultQueryHint="输入课程名或老师进行查询"
-            app:iconifiedByDefault="false"
-            app:searchIcon="@android:drawable/ic_search_category_default" />
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/recom_search_type"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="@drawable/bg_rounded_edit"
+                android:spinnerMode="dropdown" />
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/recom_search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/fbutton_color_clouds"
+                app:defaultQueryHint="请在左侧选择搜索模式"
+                app:iconifiedByDefault="false"
+                app:searchIcon="@android:drawable/ic_search_category_default" />
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recom_recycleview"

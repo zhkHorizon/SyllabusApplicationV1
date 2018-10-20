@@ -7,27 +7,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.daidaijie.syllabusapplication.R;
-import com.example.daidaijie.syllabusapplication.recommendation.SearchClassResultBean;
-
-import org.w3c.dom.Text;
+import com.example.daidaijie.syllabusapplication.recommendation.bean.finalResultBean;
 
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by 16zhchen on 2018/10/4.
  */
 
 public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.ViewHolder> implements View.OnClickListener {
-    private List<SearchClassResultBean> mData;
+    private List<finalResultBean> mData;
     private OnItemClickListener mOnItemClickListener;
 
-    public SearchItemAdapter(List<SearchClassResultBean> list){
+    public SearchItemAdapter(List<finalResultBean> list){
         mData = list;
     }
 
-    public void updateData(List<SearchClassResultBean> list){
+    public void updateData(List<finalResultBean> list){
         mData.clear();
         mData = list;
         notifyDataSetChanged();
@@ -36,15 +32,23 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_recom_recycleview,parent,false);
+                .inflate(R.layout.item_recom_final,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
-        view.setOnClickListener(this);
+        //view.setOnClickListener(this);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mText.setText(mData.get(position).getClassName());
+        holder.courseID.setText(mData.get(position).getCourse_id());
+        holder.courseName.setText(mData.get(position).getCourse_name());
+        holder.Credit.setText(String.valueOf(mData.get(position).getCredit()));
+        holder.department.setText(mData.get(position).getDepartment());
+        holder.thName.setText(mData.get(position).getName());
+        if(mData.get(position).getAve_score()==0)
+            holder.score.setText("暂无评分");
+        else holder.score.setText(String.valueOf(mData.get(position).getAve_score()));
+
         holder.itemView.setTag(position);
     }
 
@@ -60,17 +64,23 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
         return mData == null ? 0 : mData.size();
     }
 
-    public String getClassName(int position){
-        return mData.get(position).getClassName();
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView mText;
+        TextView courseName;
+        TextView courseID;
+        TextView Credit;
+        TextView department;
+        TextView thName;
+        TextView score;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mText = (TextView) itemView.findViewById(R.id.item_recom_text);
-            mText.setCompoundDrawables(null,null,null,null);
+            courseID = (TextView) itemView.findViewById(R.id.item_recom_final_courseID);
+            courseName = (TextView) itemView.findViewById(R.id.item_recom_final_courseName);
+            Credit = (TextView) itemView.findViewById(R.id.item_recom_final_credit);
+            department = (TextView) itemView.findViewById(R.id.item_recom_final_Unit);
+            thName = (TextView) itemView.findViewById(R.id.item_recom_final_teacher);
+            score = (TextView) itemView.findViewById(R.id.item_recom_final_score);
         }
     }
     public interface OnItemClickListener{

@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/item_recom_text"
+        android:id="@+id/item_recom_departName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/cardview_light_background"
@@ -15,8 +15,9 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp"
-        android:text="TextView"
-        android:textSize="20sp" />
+        android:text="计算机系"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="24sp" />
 
     <View
         android:layout_width="match_parent"
