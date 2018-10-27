@@ -41,6 +41,7 @@ public class TaskListActivity extends BaseActivity {
     //TaskPagerAdapter mTaskPagerAdapter;
     TaskAllBean mTaskAllBean;
     public static final long ADD = 0;
+    TaskListFragment taskListFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,18 +51,20 @@ public class TaskListActivity extends BaseActivity {
         setupTitleBar(mToolbar);
 //
         //添加fragment,可以移到init
-        TaskListFragment taskListFragment =
+        taskListFragment =
                 (TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.list_contextFrame);
         if(taskListFragment == null){
             taskListFragment = TaskListFragment.newInstance();
             ActivityUtil.addFragmentToActivity(
                     getSupportFragmentManager(),taskListFragment,R.id.list_contextFrame);
         }
+        final TaskListFragment finalTaskListFragment = taskListFragment;
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addNewTask();
                 Toast.makeText(view.getContext(),"添加任务",Toast.LENGTH_SHORT).show();
+                taskListFragment.setStatus(true);
             }
         });
 

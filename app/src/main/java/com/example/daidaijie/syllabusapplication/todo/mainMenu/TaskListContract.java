@@ -19,5 +19,7 @@ public interface TaskListContract {
         //void showRefresh(boolean isShow);
         void showFailMessage(String msg);
         void showList(List<TaskBean> taskBeen);
+        boolean getStatus();
+        void setStatus(boolean s );
     }
 }

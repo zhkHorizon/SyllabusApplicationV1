@@ -85,7 +85,6 @@ public class TaskListPresenter implements TaskListContract.presenter {
         dataManager = TodoDataManager.getInstance();
         List<TaskBean> temp = getList();
         loadUserInfo();
-        Log.d(TAG, "start: "+mUserInfo.getNickname());
         mView.showList(getList());
     }
 
@@ -150,9 +149,9 @@ public class TaskListPresenter implements TaskListContract.presenter {
 
             ResponseBody body =  ((HttpException) e).response().errorBody();
             int code  = ((HttpException) e).response().code();
-
+            Log.d(TAG, "showErrorMsg: "+code);
             if(code == 401){
-                mView.showFailMessage("PASSWORD WRONG");
+                mView.showFailMessage("请重新登陆");
                 return;
             }
             Log.d(TAG, "showErrorMsg: "+code);

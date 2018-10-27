@@ -38,6 +38,7 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
     SwipeRefreshLayout mRefreshTaskLayout;
 
 
+    boolean isNetDataChanged = false;
 
     @Inject
     TaskListPresenter mTaskListPresenter;
@@ -88,23 +89,10 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
                 final String items[] ={"编辑","删除"};
                 AlertDialog dialog = new AlertDialog.Builder(view.getContext())
                         .setTitle(mTaskItemAdapter.getTask(position).getTitle())
-//                        .setItems(items, new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                switch (i){
-//                                    case 0:{
-//                                        //编辑
-//
-//                                    }break;
-//                                    case 1:{
-//
-//                                    }
-//                                }
-//                            }
-//                        })
                         .setPositiveButton("编辑", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+
                                 Intent intent = new Intent(getContext(), TaskAEActivity.class);
                                 intent.putExtra("TYPE",mTaskItemAdapter.getTask(position).getId());
                                 startActivity(intent);
@@ -161,7 +149,15 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
     public void onResume() {
         Log.d(TAG, "onResume: ");
         super.onResume();
-        mTaskListPresenter.start();
+
+        if(isNetDataChanged){
+            mTaskListPresenter.loadData();
+            isNetDataChanged = false;
+        }else{
+            mTaskListPresenter.start();
+        }
+
+
     }
 
     @Override
@@ -180,7 +176,7 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
 
     @Override
     public void showFailMessage(String msg) {
-        Toast.makeText(getActivity(),"ERROR",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -188,4 +184,13 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
         mTaskItemAdapter.updateData(taskBeen);
     }
 
+    @Override
+    public boolean getStatus() {
+        return isNetDataChanged;
+    }
+
+    @Override
+    public void setStatus(boolean s) {
+        isNetDataChanged = s;
+    }
 }

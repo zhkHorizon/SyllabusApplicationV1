@@ -190,9 +190,9 @@ public class MainActivity extends BaseActivity implements
         //暂时屏蔽
 //        mToTodoCardItem.setCardIcon(R.drawable.ic_question);
 //        mToTodoCardItem.setTitleText("敬请期待");
-        mToInfoCardItem.setVisibility(View.GONE);
-        mToFindCardItem.setVisibility(View.GONE);
-        mToLoveCardItem.setVisibility(View.GONE);
+//        mToInfoCardItem.setVisibility(View.GONE);
+//        mToFindCardItem.setVisibility(View.GONE);
+//        mToLoveCardItem.setVisibility(View.GONE);
 
         mToolbarLayout.setTitle("");
         mToolbar.setTitle("");
@@ -565,14 +565,14 @@ public class MainActivity extends BaseActivity implements
                 startActivity(intent);
             }
         });
-//        mToInfoCardItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, InfoMainActivity.class);
-//                intent.putExtra("BLOCKTYPE",1);
-//                startActivity(intent);
-//            }
-//        });
+        mToInfoCardItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, InfoMainActivity.class);
+                intent.putExtra("BLOCKTYPE",1);
+                startActivity(intent);
+            }
+        });
     }
 
     private void share(int scene) {
