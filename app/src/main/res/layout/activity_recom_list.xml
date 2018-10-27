@@ -42,6 +42,15 @@
         android:orientation="vertical">
 
 
+        <TextView
+            android:id="@+id/recomClass_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="TextView"
+            android:textSize="18sp" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recomClass_recycleview"
             android:layout_width="match_parent"

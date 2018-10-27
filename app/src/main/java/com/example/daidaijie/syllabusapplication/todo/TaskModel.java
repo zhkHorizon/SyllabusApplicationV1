@@ -36,8 +36,8 @@ public class TaskModel implements ITaskModel {
 
     @Override
     public Observable<TODOAllBean.DataBean.EvaListBean> getAllTaskFromNet() {
-        //TODO，后期可能要改成传参，现在先暂且这样,用户名等还要改
-        return mTodoApi.getAllTask(3,"100002",1,1,10)
+
+        return mTodoApi.getAllTask(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),1,1,10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Func1<TODOAllBean, Observable<TODOAllBean.DataBean.EvaListBean>>() {
@@ -55,7 +55,7 @@ public class TaskModel implements ITaskModel {
         String start = sdf.format(calendar.getTime());
         calendar.add(Calendar.HOUR,1);
         String dead = sdf.format(calendar.getTime());
-        return mTodoApi.addNewTask(3,"100002","",title,context,start,dead,"",1)
+        return mTodoApi.addNewTask(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),"",title,context,start,dead,"",1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -67,21 +67,21 @@ public class TaskModel implements ITaskModel {
         String start = sdf.format(calendar.getTime());
         calendar.add(Calendar.HOUR,1);
         String dead = sdf.format(calendar.getTime());
-        return mTodoApi.editTask(3,"100002",todoID,"",title,context,start,dead,"",1)
+        return mTodoApi.editTask(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),todoID,"",title,context,start,dead,"",1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<HttpBean> updateStatus(int todoID, int status) {
-        return mTodoApi.updateStatus(3,"100002",todoID,status)
+        return mTodoApi.updateStatus(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),todoID,status)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<HttpBean> deleteTask(int todoID) {
-        return mTodoApi.deleteTask(3,"100002",todoID)
+        return mTodoApi.deleteTask(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),todoID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

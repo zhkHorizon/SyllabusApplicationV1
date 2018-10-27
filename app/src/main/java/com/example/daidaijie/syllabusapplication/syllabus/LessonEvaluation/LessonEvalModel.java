@@ -20,12 +20,12 @@ import rx.schedulers.Schedulers;
 public class LessonEvalModel implements ILessonEvalModel {
     private static final String TAG = "LessonEvalModel";
     EvalApi mEvalApi;
-    IUserModel mIUserModel;
+    IUserModel mUserModel;
     ISyllabusModel mISyllabusModel;
     public LessonEvalModel(EvalApi evalApi, ISyllabusModel iSyllabusModel){
         mEvalApi = evalApi;
         mISyllabusModel = iSyllabusModel;
-        mIUserModel = mISyllabusModel.getmIUserModel();
+        mUserModel = mISyllabusModel.getmIUserModel();
 
 
     }
@@ -34,35 +34,11 @@ public class LessonEvalModel implements ILessonEvalModel {
         return mISyllabusModel;
     }
 
-//    @Override
-//    public Observable<HttpResult<EvalBeanSimple>> getEvaluationFromNet(long classID) {
-//
-//        return mEvalApi.getLessonEval(classID,mIUserModel.getUserInfoNormal().getUser_id())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread());
-//    }
-//
-//    //TODO,先将返回的值存为string，有需要再去解析
-//    @Override
-//    public Observable<HttpResult<String>> sendEvaluationToNet(int score, String content,long classID) {
-//        PostEvalBean postEvalBean = new PostEvalBean(
-//                mIUserModel.getUserInfoNormal().getUser_id(),
-//                score,
-//                content,
-//                mIUserModel.getUserInfoNormal().getToken(),
-//                classID
-//        );
-//        Observable<HttpResult<String>> temp1 = mEvalApi.sendComment(postEvalBean)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread());
-//        return temp1;
-//    }
 
     @Override
     public Observable<EvalAllBean.DataBean.EvaListBean> getAllEval() {
-        //TODO,改成用户相关信息
-        //尽在LessonDetailPresenter中调用一次，存储到数据库中
-        return mEvalApi.getAllLessonEval(3,"100002",1,1,10)
+        //仅在LessonDetailPresenter中调用一次，存储到数据库中
+        return mEvalApi.getAllLessonEval(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),1,1,10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Func1<EvalAllBean, Observable<EvalAllBean.DataBean.EvaListBean>>() {
@@ -76,21 +52,21 @@ public class LessonEvalModel implements ILessonEvalModel {
     @Override
     public Observable<HttpBean> addNewEval(int score, String content, int classID, String tags) {
         //TODO,处理tags
-        return mEvalApi.addLessonEval(3,"100002",classID,score,"",content)
+        return mEvalApi.addLessonEval(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),classID,score,"",content)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<HttpBean> editEval(int evaID, int score, String tags, String content) {
-        return mEvalApi.editLessonEval(3,"100002",evaID,score,tags,content)
+        return mEvalApi.editLessonEval(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),evaID,score,tags,content)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<HttpBean> deleteEval(int evaID) {
-        return mEvalApi.deleteTask(3,"100002",evaID)
+        return mEvalApi.deleteTask(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),evaID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -54,6 +54,7 @@ import com.example.daidaijie.syllabusapplication.retrofitApi.SchoolInternetApi;
 import com.example.daidaijie.syllabusapplication.services.StreamService;
 import com.example.daidaijie.syllabusapplication.stream.IStreamModel;
 import com.example.daidaijie.syllabusapplication.stream.StreamModel;
+import com.example.daidaijie.syllabusapplication.threeInfo.InfoMainActivity;
 import com.example.daidaijie.syllabusapplication.todo.mainMenu.TaskListActivity;
 import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 import com.example.daidaijie.syllabusapplication.util.ShareWXUtil;
@@ -142,6 +143,12 @@ public class MainActivity extends BaseActivity implements
     ItemCardLayout mToTakeOutCardItem;
     @BindView(R.id.toTodoCardItem)
     ItemCardLayout mToTodoCardItem;
+    @BindView(R.id.toInfoCardItem)
+    ItemCardLayout mToInfoCardItem;
+    @BindView(R.id.toFindCardItem)
+    ItemCardLayout mToFindCardItem;
+    @BindView(R.id.toLoveCardItem)
+    ItemCardLayout mToLoveCardItem;
 
     RelativeLayout navHeadRelativeLayout;
     SimpleDraweeView headImageDraweeView;
@@ -178,6 +185,14 @@ public class MainActivity extends BaseActivity implements
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             layoutParams.topMargin += getStatusBarHeight();
         }
+
+
+        //暂时屏蔽
+//        mToTodoCardItem.setCardIcon(R.drawable.ic_question);
+//        mToTodoCardItem.setTitleText("敬请期待");
+        mToInfoCardItem.setVisibility(View.GONE);
+        mToFindCardItem.setVisibility(View.GONE);
+        mToLoveCardItem.setVisibility(View.GONE);
 
         mToolbarLayout.setTitle("");
         mToolbar.setTitle("");
@@ -546,12 +561,18 @@ public class MainActivity extends BaseActivity implements
         mToTodoCardItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO,功能测试
                 Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
-                //Intent intent = new Intent(MainActivity.this, RecomActivity.class);
                 startActivity(intent);
             }
         });
+//        mToInfoCardItem.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, InfoMainActivity.class);
+//                intent.putExtra("BLOCKTYPE",1);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void share(int scene) {

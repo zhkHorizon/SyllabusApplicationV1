@@ -21,6 +21,7 @@ public interface SearchListContract {
     interface view extends BaseView<RecomContract.presenter> {
         void showList(List<finalResultBean> unitBeen);
         void showMsg(String Msg);
+        void showTips(String Msg);
         void closePage();
     }
 }

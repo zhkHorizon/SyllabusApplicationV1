@@ -52,8 +52,8 @@ public class SearchListPrsenter implements SearchListContract.presenter{
                     public void onCompleted() {
                         Log.d(TAG, "onCompleted: ");
                         if(list.size()==0){
-                            mView.showMsg("没有找到相关条目");
-                            mView.closePage();
+                            mView.showTips("没有找到相关条目");
+                            //mView.closePage();
                         }else
                             mView.showList(list);
                     }
@@ -102,7 +102,13 @@ public class SearchListPrsenter implements SearchListContract.presenter{
                 .subscribe(new Subscriber<CourseBean>() {
                     @Override
                     public void onCompleted() {
-                        mView.showList(list);
+
+                        Log.d(TAG, "onCompleted: ");
+                        if(list.size()==0){
+                            mView.showTips("没有找到相关条目");
+                            //mView.closePage();
+                        }else
+                            mView.showList(list);
                     }
 
                     @Override

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.daidaijie.syllabusapplication.base.IBaseModel;
 import com.example.daidaijie.syllabusapplication.bean.Syllabus;
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 import com.example.daidaijie.syllabusapplication.syllabus.ISyllabusModel;
 import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.EvalApi;
@@ -11,6 +12,7 @@ import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.bean.
 import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.local.EvalBean;
 import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.local.EvalDataManager;
 import com.example.daidaijie.syllabusapplication.todo.TodoApi;
+import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,17 +69,19 @@ public class LessonInfoPresenter implements LessonInfoContract.presenter {
     }
     @Override
     public void getAllEval() {
+        IUserModel mUserModel = mISyllabusModel.getmIUserModel();
         evalList = new ArrayList<>();
         Log.d(TAG, "getAllEval: ");
         //TODO,多一段获取用户信息的代码
         dataManager = EvalDataManager.getInstance();
+        @SchoolRetrofit
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://118.126.92.214:8082/")
+                .baseUrl("https://class.stuapps.com")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         EvalApi api = retrofit.create(EvalApi.class);
-        api.getAllLessonEval(3,"100002",1,1,10)
+        api.getAllLessonEval(mUserModel.getUserInfoNormal().getUser_id(),mUserModel.getUserInfoNormal().getToken(),1,1,10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Func1<EvalAllBean, Observable<EvalAllBean.DataBean.EvaListBean>>() {

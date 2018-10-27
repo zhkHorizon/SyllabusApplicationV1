@@ -1,5 +1,6 @@
 package com.example.daidaijie.syllabusapplication.todo.taskDetail;
 
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.TestRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
@@ -31,7 +32,7 @@ public class TaskDetailModule {
 
     @PerFragment
     @Provides
-    ITaskModel provideTaskModel(@TestRetrofit Retrofit retrofit,
+    ITaskModel provideTaskModel(@SchoolRetrofit Retrofit retrofit,
                                 @LoginUser IUserModel iUserModel){
         return new TaskModel(retrofit.create(TodoApi.class),iUserModel);
     }

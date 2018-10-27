@@ -11,13 +11,13 @@
         android:background="@color/cardview_light_background"
         android:drawableRight="@android:drawable/ic_menu_send"
         android:gravity="center_vertical"
-        android:paddingBottom="10dp"
+        android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:text="计算机系"
         android:textColor="@color/cardview_dark_background"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <View
         android:layout_width="match_parent"

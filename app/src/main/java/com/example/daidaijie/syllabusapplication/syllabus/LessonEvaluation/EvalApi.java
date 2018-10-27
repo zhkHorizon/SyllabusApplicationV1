@@ -23,14 +23,7 @@ import rx.Observable;
 
 public interface EvalApi {
 
-    @GET("s")
-    Observable<HttpResult<EvalBeanSimple>> getLessonEval(@Query("class_id") long lessonID,
-                                                         @Query("uid") int uid);
-
-    @POST("r")
-    Observable<HttpResult<String>> sendComment(@Body PostEvalBean postEvalBean);
-
-    @GET("api/v2/eva")
+    @GET("extension/api/v2/eva")
     Observable<EvalAllBean> getAllLessonEval(@Query("uid") int uid,
                                              @Query("token") String token,
                                              @Query("mode") int mode,
@@ -38,7 +31,7 @@ public interface EvalApi {
                                              @Query("page_size") int page_size);
 
     @FormUrlEncoded
-    @POST("api/v2/eva")
+    @POST("extension/api/v2/eva")
     Observable<HttpBean> addLessonEval(@Field("uid") int uid,
                                         @Field("token") String token,
                                         @Field("class_id") int classID,
@@ -47,7 +40,7 @@ public interface EvalApi {
                                         @Field("content") String content);
 
     @FormUrlEncoded
-    @PUT("api/v2/eva")
+    @PUT("extension/api/v2/eva")
     Observable<HttpBean> editLessonEval(@Field("uid") int uid,
                                         @Field("token") String token,
                                         @Field("eva_id") int evaID,
@@ -55,7 +48,7 @@ public interface EvalApi {
                                         @Field("tags") String tags,
                                         @Field("content") String content);
 
-    @DELETE("api/v2/eva")
+    @DELETE("extension/api/v2/eva")
     Observable<HttpBean> deleteTask(@Header("uid") int uid,
                                     @Header("token") String token,
                                     @Header("evaid") int evaID);

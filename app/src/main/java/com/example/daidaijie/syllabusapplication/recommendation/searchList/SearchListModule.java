@@ -1,5 +1,6 @@
 package com.example.daidaijie.syllabusapplication.recommendation.searchList;
 
+import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.TestRetrofit;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
 import com.example.daidaijie.syllabusapplication.recommendation.IRecomModel;
@@ -28,7 +29,7 @@ public class SearchListModule {
 
     @PerActivity
     @Provides
-    IRecomModel provideRecomModel(@TestRetrofit Retrofit retrofit){
+    IRecomModel provideRecomModel(@SchoolRetrofit Retrofit retrofit){
         return new RecomModel(retrofit.create(recomApi.class));
     }
 }

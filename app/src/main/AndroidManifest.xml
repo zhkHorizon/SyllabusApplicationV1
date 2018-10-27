@@ -180,8 +180,8 @@
         <activity android:name=".todo.addOrEditTask.TaskAEActivity" />
         <activity android:name=".syllabus.LessonEvaluation.LessonEvalActivity" />
         <activity android:name=".recommendation.searchList.SearchListActivity" />
-        <activity android:name=".recommendation.mainMenu.RecomActivity"></activity>
-        <activity android:name=".recommendation.ClassDetail.ClassDetailAcvitity"></activity>
+        <activity android:name=".recommendation.mainMenu.RecomActivity" />
+        <activity android:name=".threeInfo.InfoMainActivity"></activity>
     </application>
 
 </manifest>

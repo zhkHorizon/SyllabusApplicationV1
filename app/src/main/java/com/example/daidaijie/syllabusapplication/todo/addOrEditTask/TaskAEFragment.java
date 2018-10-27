@@ -1,6 +1,7 @@
 package com.example.daidaijie.syllabusapplication.todo.addOrEditTask;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
@@ -292,7 +293,7 @@ public class TaskAEFragment extends BaseFragment implements TaskAEContract.View,
             }
         };
         DatePickerDialog dialog;
-        dialog = new DatePickerDialog(getContext(),listener,
+        dialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,listener,
                 c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
         dialog.show();
     }
@@ -305,7 +306,7 @@ public class TaskAEFragment extends BaseFragment implements TaskAEContract.View,
             }
         };
         TimePickerDialog dialog;
-        dialog = new TimePickerDialog(getContext(),listener,
+        dialog = new TimePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,listener,
                 c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),true);
         dialog.show();
     }

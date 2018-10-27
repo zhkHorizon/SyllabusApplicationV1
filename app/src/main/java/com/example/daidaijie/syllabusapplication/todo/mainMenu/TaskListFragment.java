@@ -88,38 +88,50 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
                 final String items[] ={"编辑","删除"};
                 AlertDialog dialog = new AlertDialog.Builder(view.getContext())
                         .setTitle(mTaskItemAdapter.getTask(position).getTitle())
-                        .setItems(items, new DialogInterface.OnClickListener() {
+//                        .setItems(items, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                switch (i){
+//                                    case 0:{
+//                                        //编辑
+//
+//                                    }break;
+//                                    case 1:{
+//
+//                                    }
+//                                }
+//                            }
+//                        })
+                        .setPositiveButton("编辑", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                switch (i){
-                                    case 0:{
-                                        //编辑
-                                        Intent intent = new Intent(getContext(), TaskAEActivity.class);
-                                        intent.putExtra("TYPE",mTaskItemAdapter.getTask(position).getId());
-                                        startActivity(intent);
-                                    }break;
-                                    case 1:{
-                                        AlertDialog dia = new AlertDialog.Builder(view.getContext())
-                                                .setMessage("是否删除 "+mTaskItemAdapter.getTask(position).getTitle())
-                                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        dialogInterface.dismiss();
-                                                    }
-                                                })
-                                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        mTaskListPresenter.DeteleTask(mTaskItemAdapter.getTask(position).getId());
-                                                        dialogInterface.dismiss();
-                                                        Toast.makeText(view.getContext(),"删除成功",Toast.LENGTH_SHORT).show();
-                                                        mTaskItemAdapter.updateData(mTaskListPresenter.getList());
-                                                        mTaskItemAdapter.notifyDataSetChanged();
-                                                    }
-                                                }).create();
-                                        dia.show();
-                                    }
-                                }
+                                Intent intent = new Intent(getContext(), TaskAEActivity.class);
+                                intent.putExtra("TYPE",mTaskItemAdapter.getTask(position).getId());
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("删除", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                AlertDialog dia = new AlertDialog.Builder(view.getContext())
+                                        .setMessage("是否删除 "+mTaskItemAdapter.getTask(position).getTitle())
+                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                mTaskListPresenter.DeteleTask(mTaskItemAdapter.getTask(position).getId());
+                                                dialogInterface.dismiss();
+                                                Toast.makeText(view.getContext(),"删除成功",Toast.LENGTH_SHORT).show();
+                                                mTaskItemAdapter.updateData(mTaskListPresenter.getList());
+                                                mTaskItemAdapter.notifyDataSetChanged();
+                                            }
+                                        }).create();
+                                dia.show();
                             }
                         })
                         .create();
@@ -137,6 +149,7 @@ public class TaskListFragment extends BaseFragment implements TaskListContract.v
         mContentView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.d(TAG, "onRefresh: ");
                 mContentView.setRefreshing(false);
                 mTaskListPresenter.loadData();
             }

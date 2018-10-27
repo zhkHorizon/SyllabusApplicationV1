@@ -117,12 +117,7 @@ public class RecomActivity extends BaseActivity implements RecomContract.view {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { 
             @Override 
             public boolean onQueryTextSubmit(String s) {
-//                Log.d(TAG, "onQueryTextSubmit: ");
-//                Intent intent = new Intent(RecomActivity.this, SearchListActivity.class);
-//                intent.putExtra("TYPE",1);
-//                //0:按单位查找，1:搜索查找
-//                intent.putExtra("text",s);
-//                startActivity(intent);
+
                 switch (searchType.getSelectedItemPosition()){
                     case RecomItemAdapter.Q1M1:
                         mPresenter.getAllCourseByQ1M1(s);
@@ -183,8 +178,5 @@ public class RecomActivity extends BaseActivity implements RecomContract.view {
     public void showMsg(String Msg) {
         Toast.makeText(this,Msg,Toast.LENGTH_SHORT).show();
     }
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void getMsgEvent(CourseBean event){
-//        Log.d(TAG, "getMsgEvent: "+event.getCourse_name());
-//    }
+
 }

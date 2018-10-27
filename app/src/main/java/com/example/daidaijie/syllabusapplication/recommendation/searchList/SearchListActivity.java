@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.daidaijie.syllabusapplication.R;
@@ -30,6 +32,8 @@ public class SearchListActivity extends BaseActivity implements SearchListContra
     Toolbar mToolBar;
     @BindView(R.id.recomClass_recycleview)
     RecyclerView mRecycleView;
+    @BindView(R.id.recomClass_tips)
+    TextView mTips;
 
     SearchItemAdapter mAdapter;
     @Inject
@@ -43,7 +47,7 @@ public class SearchListActivity extends BaseActivity implements SearchListContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupTitleBar(mToolBar);
-
+        mTips.setVisibility(View.GONE);
         mAdapter = new SearchItemAdapter(new ArrayList<finalResultBean>());
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         mRecycleView.setAdapter(mAdapter);
@@ -72,6 +76,13 @@ public class SearchListActivity extends BaseActivity implements SearchListContra
         }else if(mode ==2){
             mPresenter.showFinalResultByTeacher((TeacherBean)bean);
         }
+    }
+
+    @Override
+    public void showTips(String Msg) {
+        mRecycleView.setVisibility(View.GONE);
+        mTips.setVisibility(View.VISIBLE);
+        mTips.setText(Msg);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)

@@ -37,7 +37,7 @@ public class LessonEvalModule {
 //    }
     @PerActivity
     @Provides
-    ILessonEvalModel provideLessonEvalModel(@TestRetrofit Retrofit retrofit,
+    ILessonEvalModel provideLessonEvalModel(@SchoolRetrofit Retrofit retrofit,
                                             ISyllabusModel syllabusModel){
         return new LessonEvalModel(retrofit.create(EvalApi.class), syllabusModel);
     }

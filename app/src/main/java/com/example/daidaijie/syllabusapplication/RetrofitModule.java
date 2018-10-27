@@ -32,10 +32,21 @@ public class RetrofitModule {
     @Singleton
     public Retrofit provideSchoolRetrofit() {
 
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            // Log信息拦截器
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//这里可以选择拦截级别
+
+            //设置 Debug Log 模式
+            builder.addInterceptor(loggingInterceptor);
+        }
+        OkHttpClient client = builder.build();
         return new Retrofit.Builder()
                 .baseUrl("https://class.stuapps.com")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
     }
 

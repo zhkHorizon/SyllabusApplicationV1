@@ -62,6 +62,7 @@ public class TaskListPresenter implements TaskListContract.presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         showErrorMsg(e);
                     }
 
@@ -146,9 +147,19 @@ public class TaskListPresenter implements TaskListContract.presenter {
 
     private void showErrorMsg(Throwable e){
         if(e instanceof HttpException){
+
             ResponseBody body =  ((HttpException) e).response().errorBody();
+            int code  = ((HttpException) e).response().code();
+
+            if(code == 401){
+                mView.showFailMessage("PASSWORD WRONG");
+                return;
+            }
+            Log.d(TAG, "showErrorMsg: "+code);
+            Log.d(TAG, "showErrorMsg: "+body.toString());
             try{
                 mView.showFailMessage(body.string());
+
             }catch (IOException IOe) {
                 IOe.printStackTrace();
             }

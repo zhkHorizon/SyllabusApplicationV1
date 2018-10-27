@@ -174,11 +174,44 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
-                app:cardIcon="@drawable/ic_question"
-                app:cardTitle="敬请期待"></com.example.daidaijie.syllabusapplication.widget.ItemCardLayout>
+                app:cardIcon="@drawable/ic_list"
+                app:cardTitle="待办事项"></com.example.daidaijie.syllabusapplication.widget.ItemCardLayout>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
+            <com.example.daidaijie.syllabusapplication.widget.ItemCardLayout
+                android:id="@+id/toInfoCardItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                app:cardIcon="@drawable/ic_talk"
+                app:cardTitle="信息发布"></com.example.daidaijie.syllabusapplication.widget.ItemCardLayout>
+
+            <com.example.daidaijie.syllabusapplication.widget.ItemCardLayout
+                android:id="@+id/toFindCardItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardIcon="@drawable/ic_finder"
+                app:cardTitle="失物招领"></com.example.daidaijie.syllabusapplication.widget.ItemCardLayout>
+
+            <com.example.daidaijie.syllabusapplication.widget.ItemCardLayout
+                android:id="@+id/toLoveCardItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                app:cardIcon="@drawable/ic_love"
+                app:cardTitle="表白墙"></com.example.daidaijie.syllabusapplication.widget.ItemCardLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
 

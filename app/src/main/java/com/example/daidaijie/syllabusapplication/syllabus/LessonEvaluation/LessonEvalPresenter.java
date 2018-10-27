@@ -45,26 +45,6 @@ public class LessonEvalPresenter implements LessonEvalContract.presenter {
 
     @Override
     public void postEval(int score, String eval) {
-//        mILessonEvalModel.sendEvaluationToNet(score,eval,mID)
-//                .subscribe(new Subscriber<HttpResult<String>>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        mView.showMessage("发送成功");
-//                        mView.closePage();
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        mView.showMessage("发送失败");
-//                        e.printStackTrace();
-//                    }
-//
-//                    @Override
-//                    public void onNext(HttpResult<String> voidHttpResult) {
-//                        Log.d(TAG, "onNext: "+voidHttpResult.getMessage());
-//                    }
-//                });
         if(isFirst){
             mILessonEvalModel.addNewEval(score,eval,(int)mID,"")
                     .subscribe(new Subscriber<HttpBean>() {
@@ -113,26 +93,7 @@ public class LessonEvalPresenter implements LessonEvalContract.presenter {
 
     @Override
     public void start() {
-//        mILessonEvalModel.getEvaluationFromNet(mID)
-//                .subscribe(new Subscriber<HttpResult<EvalBeanSimple>>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    @Override
-//                    public void onNext(HttpResult<EvalBeanSimple> evalBeanHttpResult) {
-//                        if(evalBeanHttpResult.getCode()==200){
-//                            mView.setRating(evalBeanHttpResult.getData().getScore());
-//                            mView.setText(evalBeanHttpResult.getData().getContent());
-//                        }
-//                    }
-//                });
+
         Log.d(TAG, "start: eval");
         mEval = dataManager.getEvalByclassID((int)mID);
         if(mEval != null){

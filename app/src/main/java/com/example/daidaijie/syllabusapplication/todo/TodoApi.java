@@ -24,14 +24,14 @@ import rx.Observable;
 
 public interface TodoApi {
 
-    @GET("api/v2/todo")
+    @GET("extension/api/v2/todo")
     Observable<TODOAllBean> getAllTask(@Query("uid") int uid,
                                        @Query("token") String token,
                                        @Query("mode") int mode,
                                        @Query("page_index") int page_index,
                                        @Query("page_size") int page_size);
     @FormUrlEncoded
-    @POST("api/v2/todo")
+    @POST("extension/api/v2/todo")
     Observable<HttpBean> addNewTask(@Field("uid") int uid,
                                   @Field("token") String token,
                                   @Field("label") String label,
@@ -43,7 +43,7 @@ public interface TodoApi {
                                   @Field("priority") int priority);
 
     @FormUrlEncoded
-    @PUT("api/v2/todo")
+    @PUT("extension/api/v2/todo")
     Observable<HttpBean> editTask(@Field("uid") int uid,
                                 @Field("token") String token,
                                 @Field("todo_id") int todoID,
@@ -54,12 +54,12 @@ public interface TodoApi {
                                 @Field("deadline_time") String deadlineTime,
                                 @Field("img_link") String imgLink,
                                 @Field("priority") int priority);
-    @DELETE("api/v2/todo")
+    @DELETE("extension/api/v2/todo")
     Observable<HttpBean> deleteTask(@Header("uid") int uid,
                                     @Header("token") String token,
                                     @Header("todoid") int todoID);
     @FormUrlEncoded
-    @PUT("api/v2/todo_status")
+    @PUT("extension/api/v2/todo_status")
     Observable<HttpBean> updateStatus(@Field("uid") int uid,
                                       @Field("token") String token,
                                       @Field("todo_id") int id,
