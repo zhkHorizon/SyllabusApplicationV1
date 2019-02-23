@@ -11,7 +11,6 @@ import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.EvalA
 import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.bean.EvalAllBean;
 import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.local.EvalBean;
 import com.example.daidaijie.syllabusapplication.syllabus.LessonEvaluation.local.EvalDataManager;
-import com.example.daidaijie.syllabusapplication.todo.TodoApi;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
 import java.io.IOException;

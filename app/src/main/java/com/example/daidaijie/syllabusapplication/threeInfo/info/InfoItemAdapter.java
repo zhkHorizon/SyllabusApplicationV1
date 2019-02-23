@@ -72,6 +72,27 @@ public class InfoItemAdapter extends RecyclerView.Adapter<InfoItemAdapter.ViewHo
         this.mOnItemClickListener = listener;
     }
 
+    public interface OnLikeStateChangeListener {
+        void onLike(boolean isLike);
+
+        void onFinish();
+    }
+
+    //点赞相关
+    public interface OnLikeCallBack {
+        void onLike(int position, boolean isLike, OnLikeStateChangeListener onLikeStateChangeListener);
+    }
+
+    OnLikeCallBack mOnLikeCallBack;
+
+    public OnLikeCallBack getOnLikeCallBack() {
+        return mOnLikeCallBack;
+    }
+
+    public void setOnLikeCallBack(OnLikeCallBack onLikeCallBack) {
+        mOnLikeCallBack = onLikeCallBack;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView title;
         TextView content;

@@ -4,12 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -24,13 +22,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
-import com.example.daidaijie.syllabusapplication.App;
+import com.example.daidaijie.syllabusapplication.ModuleInfo.Info4Activity;
+import com.example.daidaijie.syllabusapplication.ModuleLove.AnonymousActivity;
 import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.activity.EmailWebActivity;
 import com.example.daidaijie.syllabusapplication.activity.LibraryWebActivity;
@@ -44,6 +42,7 @@ import com.example.daidaijie.syllabusapplication.bean.UserInfo;
 import com.example.daidaijie.syllabusapplication.event.InternetOpenEvent;
 import com.example.daidaijie.syllabusapplication.event.UpdateUserInfoEvent;
 import com.example.daidaijie.syllabusapplication.exam.mainMenu.ExamActivity;
+import com.example.daidaijie.syllabusapplication.Modulefindlost.FindLostActivity;
 import com.example.daidaijie.syllabusapplication.grade.GradeActivity;
 import com.example.daidaijie.syllabusapplication.login.login.LoginActivity;
 import com.example.daidaijie.syllabusapplication.model.InternetModel;
@@ -54,9 +53,7 @@ import com.example.daidaijie.syllabusapplication.retrofitApi.SchoolInternetApi;
 import com.example.daidaijie.syllabusapplication.services.StreamService;
 import com.example.daidaijie.syllabusapplication.stream.IStreamModel;
 import com.example.daidaijie.syllabusapplication.stream.StreamModel;
-import com.example.daidaijie.syllabusapplication.threeInfo.InfoMainActivity;
 import com.example.daidaijie.syllabusapplication.todo.mainMenu.TaskListActivity;
-import com.example.daidaijie.syllabusapplication.util.LoggerUtil;
 import com.example.daidaijie.syllabusapplication.util.ShareWXUtil;
 import com.example.daidaijie.syllabusapplication.util.ThemeUtil;
 import com.example.daidaijie.syllabusapplication.officeAutomation.mainMenu.OfficeAutomationActivity;
@@ -66,7 +63,6 @@ import com.example.daidaijie.syllabusapplication.other.PhotoDetailActivity;
 import com.example.daidaijie.syllabusapplication.other.update.UpdateActivity;
 import com.example.daidaijie.syllabusapplication.schoolDymatic.STUCircleActivity;
 import com.example.daidaijie.syllabusapplication.schoolDymatic.personal.PersonalActivity;
-import com.example.daidaijie.syllabusapplication.stuLibrary.mainMenu.LibraryActivity;
 import com.example.daidaijie.syllabusapplication.syllabus.main.activity.SyllabusActivity;
 import com.example.daidaijie.syllabusapplication.takeout.mainMenu.TakeOutActivity;
 import com.example.daidaijie.syllabusapplication.user.UserComponent;
@@ -83,9 +79,6 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -568,8 +561,21 @@ public class MainActivity extends BaseActivity implements
         mToInfoCardItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, InfoMainActivity.class);
-                intent.putExtra("BLOCKTYPE",1);
+                Intent intent = new Intent(MainActivity.this, Info4Activity.class);
+                startActivity(intent);
+            }
+        });
+        mToFindCardItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FindLostActivity.class);
+                startActivity(intent);
+            }
+        });
+        mToLoveCardItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AnonymousActivity.class);
                 startActivity(intent);
             }
         });

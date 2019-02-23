@@ -23,17 +23,45 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/postContentButton"
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/postContentButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_marginBottom="24dp"-->
+        <!--android:layout_marginRight="24dp"-->
+        <!--android:src="@drawable/ic_edit_white"-->
+        <!--app:backgroundTint="@color/colorAccent"-->
+        <!--app:elevation="8dp"-->
+        <!--app:pressedTranslationZ="4dp"-->
+        <!--app:rippleColor="@color/colorAccentDark"/>-->
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fab_circle_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="24dp"
         android:layout_marginRight="24dp"
-        android:src="@drawable/ic_edit_white"
-        app:backgroundTint="@color/colorAccent"
-        app:elevation="8dp"
-        app:pressedTranslationZ="4dp"
-        app:rippleColor="@color/colorAccentDark"/>
+        app:fab_addButtonColorNormal="@color/colorAccent"
+        app:fab_addButtonColorPressed="@color/colorAccentDark">
 
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/postContentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_size="normal"
+            app:fab_icon="@drawable/ic_edit_white"
+            app:fab_colorPressed="@color/colorAccentDark"
+            app:fab_title="发布文字"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/myInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/colorAccent"
+            app:fab_size="normal"
+            app:fab_icon="@drawable/ic_my_user"
+            app:fab_colorPressed="@color/colorAccentDark"
+            app:fab_title="我的"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </android.support.design.widget.CoordinatorLayout>

@@ -1,14 +1,11 @@
 package com.example.daidaijie.syllabusapplication.todo;
 
-import com.example.daidaijie.syllabusapplication.bean.HttpResult;
 import com.example.daidaijie.syllabusapplication.todo.bean.HttpBean;
 import com.example.daidaijie.syllabusapplication.todo.bean.TODOAllBean;
-import com.example.daidaijie.syllabusapplication.todo.dataTemp.TaskBeanFromNet;
 import com.example.daidaijie.syllabusapplication.user.IUserModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,7 +21,7 @@ public class TaskModel implements ITaskModel {
     TodoApi mTodoApi;
     IUserModel mUserModel;
 
-    public TaskModel(TodoApi todoApi,IUserModel iUserModel){
+    public TaskModel(TodoApi todoApi, IUserModel iUserModel){
 
         mUserModel = iUserModel;
         mTodoApi = todoApi;

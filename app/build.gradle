@@ -15,6 +15,7 @@ android {
         versionCode 48
         versionName "2.0.4"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -136,4 +137,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     apt 'com.google.dagger:dagger-compiler:2.0.1'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
 }

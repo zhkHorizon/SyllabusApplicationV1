@@ -181,7 +181,19 @@
         <activity android:name=".syllabus.LessonEvaluation.LessonEvalActivity" />
         <activity android:name=".recommendation.searchList.SearchListActivity" />
         <activity android:name=".recommendation.mainMenu.RecomActivity" />
-        <activity android:name=".threeInfo.InfoMainActivity"></activity>
+        <activity android:name=".threeInfo.main.InfoMainActivity"></activity>
+        <activity android:name=".ModuleInfo.InfoTestActivity"></activity>
+        <activity android:name=".ModuleInfo.Info4Activity"></activity>
+        <activity android:name=".ModuleInfo.circle.circleDetail.CircleDetailActivity"></activity>
+        <activity android:name=".ModuleInfo.circle.postContent.PostContentActivity"></activity>
+        <activity android:name=".ModuleInfo.personal.PersonalActivity"></activity>
+        <activity android:name=".Modulefindlost.FindLostActivity"></activity>
+        <activity android:name=".Modulefindlost.FindALL.postContent.PostContentActivity"></activity>
+        <activity android:name=".Modulefindlost.personal.PersonalActivity"></activity>
+        <activity android:name=".ModuleLove.circle.postContent.PostContentActivity"></activity>
+        <activity android:name=".ModuleLove.AnonymousActivity"></activity>
+        <activity android:name=".ModuleLove.circle.circleDetail.CircleDetailActivity"></activity>
+        <activity android:name=".ModuleLove.personal.PersonalActivity"></activity>
     </application>
 
 </manifest>

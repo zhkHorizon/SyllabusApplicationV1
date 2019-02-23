@@ -58,6 +58,7 @@ public class InfoFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 switch (view.getId()){
+                    //监听事件
                     case R.id.thumbUpLinearLayout:
                         Toast.makeText(getContext(),"点赞",Toast.LENGTH_SHORT).show();
                         break;

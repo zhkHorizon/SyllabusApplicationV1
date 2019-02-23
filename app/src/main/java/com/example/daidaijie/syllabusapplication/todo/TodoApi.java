@@ -24,6 +24,7 @@ import rx.Observable;
 
 public interface TodoApi {
 
+
     @GET("extension/api/v2/todo")
     Observable<TODOAllBean> getAllTask(@Query("uid") int uid,
                                        @Query("token") String token,

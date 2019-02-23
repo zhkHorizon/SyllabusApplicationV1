@@ -7,6 +7,7 @@ import com.example.daidaijie.syllabusapplication.ILoginModel;
 import com.example.daidaijie.syllabusapplication.di.qualifier.realm.UserRealm;
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
+import com.example.daidaijie.syllabusapplication.di.scope.PerModule;
 import com.example.daidaijie.syllabusapplication.di.scope.PerUser;
 
 import dagger.Module;

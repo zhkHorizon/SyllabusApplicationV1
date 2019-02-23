@@ -1,4 +1,4 @@
-package com.example.daidaijie.syllabusapplication.threeInfo;
+package com.example.daidaijie.syllabusapplication.threeInfo.main;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -12,17 +12,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.base.BaseActivity;
+import com.example.daidaijie.syllabusapplication.threeInfo.TabAdapter;
+import com.example.daidaijie.syllabusapplication.threeInfo.Utils;
 import com.example.daidaijie.syllabusapplication.threeInfo.info.InfoFragment;
+import com.example.daidaijie.syllabusapplication.user.UserComponent;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 
-public class InfoMainActivity extends BaseActivity implements View.OnClickListener{
+public class InfoMainActivity extends BaseActivity implements View.OnClickListener,InfoMainContract.view{
 
     public static int BLOCK = 1;
     public static final String[] InfoTabTitle = new String[]{"生活", "兼职", "研究", "实习"};
@@ -37,6 +43,9 @@ public class InfoMainActivity extends BaseActivity implements View.OnClickListen
     Toolbar mToolbar;
     private TabAdapter adapter;
 
+    @Inject
+    InfoMainPresenter mPresenter;
+
     private int res[] = {R.id.circle_menu_list,R.id.circle_menu_add,R.id.circle_menu_user};
     private ArrayList<ImageView> imageViews = new ArrayList<>();
     private boolean isOpen = false;  //是否展开的flag
@@ -50,6 +59,11 @@ public class InfoMainActivity extends BaseActivity implements View.OnClickListen
         Intent intent = getIntent();
         BLOCK = intent.getIntExtra("BLOCKTYPE",0);
         Log.d(TAG, "onCreate: "+BLOCK);
+        DaggerInfoMainComponent.builder()
+                .userComponent(UserComponent.buildInstance(mAppComponent))
+                .build().inject(this);
+
+
         initViews();
         initMenu();
     }
@@ -105,6 +119,12 @@ public class InfoMainActivity extends BaseActivity implements View.OnClickListen
                     showExitAnim(100);
                 else
                     showEnterAnim(100);
+                break;
+            case R.id.circle_menu_user:
+                Toast.makeText(this,mPresenter.getUserInfo().getNickname(),Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.circle_menu_add:
+                Toast.makeText(this,"add",Toast.LENGTH_SHORT).show();
                 break;
         }
     }

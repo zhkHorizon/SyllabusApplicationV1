@@ -174,7 +174,6 @@ public class CirclesAdapter extends RecyclerView.Adapter<CirclesAdapter.ViewHold
         } else {
             holder.mPhotoRecyclerView.setVisibility(View.GONE);
         }
-
         /**
          * 点赞
          */
@@ -251,7 +250,7 @@ public class CirclesAdapter extends RecyclerView.Adapter<CirclesAdapter.ViewHold
             });
         }
 
-
+        //长按按钮
         holder.mContentTextView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

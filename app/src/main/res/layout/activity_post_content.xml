@@ -45,6 +45,26 @@
         android:paddingBottom="16dp">
 
         <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/material_white"
+            android:gravity="top"
+            android:hint="请输入标题"
+            android:maxLength="140"
+            android:maxLines="10"
+            android:padding="8dp"
+            android:textColor="@color/defaultTextColor"
+            android:textColorHint="@color/defaultShowColor"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/defaultShowColor" />
+
+        <EditText
             android:id="@+id/contentEditText"
             android:layout_width="match_parent"
             android:layout_height="160dp"
@@ -88,9 +108,76 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
+        android:text="发布板块"
+        android:textColor="@color/defaultShowColor"
+        android:textSize="16sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/material_white"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/postAsLifeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:checked="true"
+            android:text="生活"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            app:buttonTint="?attr/colorPrimary" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/postAsPartTimeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="兼职"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            app:buttonTint="?attr/colorPrimary" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/postAsLearnButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:maxLength="16"
+            android:text="学习"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            app:buttonTint="?attr/colorPrimary" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/postAsStudyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLength="16"
+            android:text="研究"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            app:buttonTint="?attr/colorPrimary" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
         android:text="发布平台"
         android:textColor="@color/defaultShowColor"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <RadioGroup
         android:layout_marginTop="8dp"

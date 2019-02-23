@@ -14,13 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.daidaijie.syllabusapplication.R;
-import com.example.daidaijie.syllabusapplication.schoolDymatic.circle.postContent.PostContentActivity;
 import com.example.daidaijie.syllabusapplication.adapter.CirclesAdapter;
 import com.example.daidaijie.syllabusapplication.base.BaseFragment;
 import com.example.daidaijie.syllabusapplication.bean.PostListBean;
 import com.example.daidaijie.syllabusapplication.event.CircleStateChangeEvent;
 import com.example.daidaijie.syllabusapplication.event.ToTopEvent;
 import com.example.daidaijie.syllabusapplication.schoolDymatic.circle.StuCircleModelComponent;
+import com.example.daidaijie.syllabusapplication.schoolDymatic.circle.postContent.PostContentActivity;
 import com.example.daidaijie.syllabusapplication.util.ClipboardUtil;
 import com.example.daidaijie.syllabusapplication.util.SnackbarUtil;
 import com.example.daidaijie.syllabusapplication.util.ThemeUtil;

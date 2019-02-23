@@ -1,7 +1,6 @@
 package com.example.daidaijie.syllabusapplication.todo.addOrEditTask;
 
 import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.SchoolRetrofit;
-import com.example.daidaijie.syllabusapplication.di.qualifier.retrofitQualifier.TestRetrofit;
 import com.example.daidaijie.syllabusapplication.di.qualifier.user.LoginUser;
 import com.example.daidaijie.syllabusapplication.di.scope.PerFragment;
 import com.example.daidaijie.syllabusapplication.todo.TodoApi;
