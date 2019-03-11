@@ -1,5 +1,7 @@
 package com.example.daidaijie.syllabusapplication.ModuleInfo.personal.posts;
 
+import android.content.Intent;
+
 import com.example.daidaijie.syllabusapplication.App;
 import com.example.daidaijie.syllabusapplication.ModuleInfo.personal.ISchoolCircleModel;
 import com.example.daidaijie.syllabusapplication.R;
@@ -132,6 +134,8 @@ public class PostsPresenter implements PostsContract.presenter, CirclesAdapter.O
                     }
                 });
     }
+
+
 
     @Override
     public void onLike(int position, boolean isLike, final CirclesAdapter.OnLikeStateChangeListener onLikeStateChangeListener) {

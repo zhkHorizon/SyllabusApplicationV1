@@ -193,7 +193,8 @@ public class SchoolCircleModel implements ISchoolCircleModel {
         UserInfo userInfo = mIUserModel.getUserInfoNormal();
 
         return mPersonalApi.deletePost(postListBean.getId(),
-                userInfo.getUser_id(), userInfo.getToken())
+//                userInfo.getUser_id(), userInfo.getToken())
+                3,"100002")
                 .subscribeOn(Schedulers.io())
                 .flatMap(new Func1<InfoDeleteReturn, Observable<List<PostListBean>>>() {
                     @Override

@@ -140,10 +140,7 @@ public class CommnetsPresenter implements CommnetsContract.presenter, CommentsAd
 
     @Override
     public void modify(int position) {
-        Intent intent = PostContentActivity.getIntent(mView.getActivity());
-        intent.putExtra("mode",1);
-        intent.putExtra("attr",mIPersonalModel.getFindLostByPosition(position));
-        mView.getActivity().startActivity(intent);
+        mView.modify(position);
     }
 
     @Override

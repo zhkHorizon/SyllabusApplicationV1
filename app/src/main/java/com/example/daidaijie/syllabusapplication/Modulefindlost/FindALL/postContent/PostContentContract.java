@@ -1,5 +1,6 @@
 package com.example.daidaijie.syllabusapplication.Modulefindlost.FindALL.postContent;
 
+import com.example.daidaijie.syllabusapplication.Modulefindlost.bean.FindBean;
 import com.example.daidaijie.syllabusapplication.base.BasePresenter;
 import com.example.daidaijie.syllabusapplication.base.BaseView;
 import com.example.daidaijie.syllabusapplication.Modulefindlost.bean.PersonalPost;
@@ -20,8 +21,9 @@ public interface PostContentContract {
         boolean isNonePhoto();
 
         void postContent(int kind,String title,String desc,String local,String contact);
-        void modifyContent(int kind,String title,String desc,String local,String contact,int findlost_id);
+        void modifyContent(int kind,String title,String desc,String local,String contact,String photo,int findlost_id);
 
+        void getPost(int id);
     }
 
     interface view extends BaseView<presenter> {
@@ -36,6 +38,6 @@ public interface PostContentContract {
 
         void onPostFinishCallBack();
 
-        void showData(PersonalPost personalPost);
+        void showData(FindBean personalPost);
     }
 }

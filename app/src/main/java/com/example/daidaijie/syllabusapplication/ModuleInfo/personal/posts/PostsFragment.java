@@ -175,6 +175,7 @@ public class PostsFragment extends BaseFragment implements PostsContract.view, S
         dialog.show();
     }
 
+
     @Override
     public void showRefresh(boolean isShow) {
         mRefreshStuCircleLayout.setRefreshing(isShow);
@@ -217,7 +218,7 @@ public class PostsFragment extends BaseFragment implements PostsContract.view, S
         isShowDelete = true;
 
         if (isShowDelete) {
-            items = new String[]{"复制", "删除"};
+            items = new String[]{"复制","修改", "删除"};
         } else {
             items = new String[]{"复制"};
         }
@@ -227,8 +228,14 @@ public class PostsFragment extends BaseFragment implements PostsContract.view, S
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             ClipboardUtil.copyToClipboard(postListBean.getContent().toString());
-                        } else {
+                        } else if( which==2 ){
                             showEnsureDeleteDialog(position);
+                        }else if(which == 1){
+                            //修改
+                            Intent intent = new Intent(getActivity(),PostContentActivity.class);
+                            intent.putExtra("id",mCirclesAdapter.getPostListBeen().get(position).getId());
+                            startActivity(intent);
+                            mPostsPresenter.refresh();
                         }
                     }
                 });

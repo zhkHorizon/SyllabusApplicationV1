@@ -7,7 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatRadioButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,15 +18,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.daidaijie.syllabusapplication.Modulefindlost.bean.FindBean;
 import com.example.daidaijie.syllabusapplication.R;
+import com.example.daidaijie.syllabusapplication.adapter.PhotoAdapter;
 import com.example.daidaijie.syllabusapplication.base.BaseActivity;
+import com.example.daidaijie.syllabusapplication.bean.PhotoInfo;
 import com.example.daidaijie.syllabusapplication.event.DeletePhotoEvent;
 import com.example.daidaijie.syllabusapplication.event.ToTopEvent;
 import com.example.daidaijie.syllabusapplication.Modulefindlost.FindALL.FindLostComponent;
 import com.example.daidaijie.syllabusapplication.Modulefindlost.bean.PersonalPost;
 import com.example.daidaijie.syllabusapplication.other.PhotoDetailActivity;
 import com.example.daidaijie.syllabusapplication.util.DensityUtil;
+import com.example.daidaijie.syllabusapplication.util.GsonUtil;
 import com.example.daidaijie.syllabusapplication.util.SnackbarUtil;
 import com.example.daidaijie.syllabusapplication.util.ThemeUtil;
 import com.example.daidaijie.syllabusapplication.widget.FlowLabelLayout;
@@ -59,6 +67,8 @@ public class PostContentActivity extends BaseActivity implements PostContentCont
     AppCompatRadioButton mPostAsObjectButton;
     @BindView(R.id.postAsPeopleButton)
     AppCompatRadioButton mPostAsPeopleButton;
+    @BindView(R.id.photoRecyclerView)
+    RecyclerView mPhotoRecyclerView;
 
 
     AlertDialog mLoadingDialog;
@@ -67,8 +77,8 @@ public class PostContentActivity extends BaseActivity implements PostContentCont
     PostContentPresenter mPostContentPresenter;
 
     public static final int MAX_IMG_NUM = 3;
-    public int MODE = 0;
-    PersonalPost personalPost;
+    int ID;
+    String photoURL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,20 +98,36 @@ public class PostContentActivity extends BaseActivity implements PostContentCont
         mPostContentPresenter.start();
 
         mDescEditText.addTextChangedListener(new MaxLinesTextWatcher(mDescEditText, 16));
-        MODE = getIntent().getIntExtra("mode",0);
-        if(MODE==1){
-            personalPost = (PersonalPost) getIntent().getSerializableExtra("attr");
-            showData(personalPost);
+        ID = getIntent().getIntExtra("id",0);
+        if(ID!=1){
+            mPostContentPresenter.getPost(ID);
         }
     }
 
     @Override
-    public void showData(PersonalPost personalPost) {
+    public void showData(FindBean personalPost) {
         mTitleEditText.setText(personalPost.getTitle());
         mDescEditText.setText(personalPost.getDescription());
         mLocalEditText.setText(personalPost.getLocation());
         mContactEditText.setText(personalPost.getContact());
-        //TODO,显示图片
+
+        if (personalPost.getImg_link() != null && !personalPost.getImg_link().isEmpty()
+                && !personalPost.getImg_link().equals("null")) {
+            photoURL = personalPost.getImg_link();
+            mPhotoRecyclerView.setVisibility(View.VISIBLE);
+            PhotoInfo photoInfo = GsonUtil.getDefault()
+                    .fromJson(personalPost.getImg_link(), PhotoInfo.class);
+            Display display = getWindowManager().getDefaultDisplay();
+            PhotoAdapter photoAdapter = new PhotoAdapter(this, photoInfo,
+                    display.getWidth() - DensityUtil.dip2px(this, 48 + 1) + 2,64);
+            mPhotoRecyclerView.setLayoutManager(new LinearLayoutManager(this,
+                    LinearLayoutManager.HORIZONTAL, false));
+            mPhotoRecyclerView.setAdapter(photoAdapter);
+            Toast.makeText(this,"长按可删除图片",Toast.LENGTH_SHORT).show();
+        } else {
+            mPhotoRecyclerView.setVisibility(View.GONE);
+        }
+
         if(personalPost.getKind() == 0){
             mPostAsPeopleButton.setChecked(true);
         }else if(personalPost.getKind() == 1){
@@ -205,15 +231,15 @@ public class PostContentActivity extends BaseActivity implements PostContentCont
             }else if(mPostAsPeopleButton.isChecked()){
                 kind = 2;
             }
-            if(MODE == 0){
+            if(ID == 0){
                 mPostContentPresenter.postContent(kind, mTitleEditText.getText().toString().trim(),
                         mDescEditText.getText().toString().trim(),mLocalEditText.getText().toString().trim(),
                         mContactEditText.getText().toString().trim());
 
-            }else if(MODE == 1){
+            }else{
                 mPostContentPresenter.modifyContent(kind, mTitleEditText.getText().toString().trim(),
                         mDescEditText.getText().toString().trim(),mLocalEditText.getText().toString().trim(),
-                        mContactEditText.getText().toString().trim(),personalPost.getId());
+                        mContactEditText.getText().toString().trim(),photoURL,ID);
             }
 
         }

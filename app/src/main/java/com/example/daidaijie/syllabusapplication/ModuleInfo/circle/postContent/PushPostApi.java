@@ -1,11 +1,18 @@
 package com.example.daidaijie.syllabusapplication.ModuleInfo.circle.postContent;
 
+import com.example.daidaijie.syllabusapplication.ModuleInfo.api.PostBean;
+import com.example.daidaijie.syllabusapplication.ModuleInfo.bean.InfoDeleteReturn;
 import com.example.daidaijie.syllabusapplication.ModuleInfo.bean.PostContent;
+import com.example.daidaijie.syllabusapplication.ModuleInfo.bean.modifyContent;
 import com.example.daidaijie.syllabusapplication.bean.ThumbUpReturn;
 
 
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -25,4 +32,10 @@ public interface PushPostApi {
     @POST("interaction/api/v2/post")
     Observable<ThumbUpReturn> post(@Body PostContent postContent);
 
+    @GET("/interaction/api/v2/post/{id}")
+    Observable<PostBean> getPost(@Path("id") int id);
+
+    @Headers("Content-type: application/json")
+    @PUT("/interaction/api/v2/post")
+    Observable<InfoDeleteReturn> update(@Body modifyContent modifyContent);
 }

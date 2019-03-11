@@ -3,6 +3,7 @@ package com.example.daidaijie.syllabusapplication.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,15 +28,25 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     private PhotoInfo mPhotoInfo;
 
     private int mWidth;
-
+    private int mHeight = 0;
+    private static final String TAG = "PostContent";
     public PhotoAdapter(Activity activity, PhotoInfo photoInfo, int width) {
+        Log.d(TAG, "PhotoAdapter: ");
         mActivity = activity;
         mPhotoInfo = photoInfo;
         mWidth = width;
     }
+    public PhotoAdapter(Activity activity, PhotoInfo photoInfo, int width,int height) {
+        Log.d(TAG, "PhotoAdapter: ");
+        mActivity = activity;
+        mPhotoInfo = photoInfo;
+        mWidth = width;
+        mHeight = width;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         LayoutInflater inflater = LayoutInflater.from(mActivity);
         //之前显示不出来是因为没设置item_photo的大小
         View view = inflater.inflate(R.layout.item_photo, parent, false);
@@ -45,26 +56,46 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-
-        PhotoInfo.PhotoListBean photoBean = mPhotoInfo.getPhoto_list().get(position);
-
-        int width = mWidth / getItemCount() - DensityUtil.dip2px(mActivity,2);
+        Log.d(TAG, "onBindViewHolder: ");
+        final PhotoInfo.PhotoListBean photoBean = mPhotoInfo.getPhoto_list().get(position);
+        int width;
+        if( mHeight != 0){
+            width = mWidth /5 - DensityUtil.dip2px(mActivity,2);
+        }
+        else
+            width = mWidth / getItemCount() - DensityUtil.dip2px(mActivity,2);
 
         ViewGroup.LayoutParams layoutParams = holder.mPhotoSimpleDraweeView.getLayoutParams();
         layoutParams.width = width;
-
+        if( mHeight != 0){
+            layoutParams.height = width;
+        }
         holder.mPhotoSimpleDraweeView.setImageURI(photoBean.getSize_small());
 
-        holder.mPhotoSimpleDraweeView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = PhotoDetailActivity.getIntent(mActivity,
-                        mPhotoInfo.getBigUrls(), position);
-                mActivity.startActivity(intent);
-            }
-        });
+        if(mHeight!=0){
+            holder.mPhotoSimpleDraweeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = PhotoDetailActivity.getIntent(mActivity,
+                            mPhotoInfo.getBigUrls(), position);
+                    mActivity.startActivity(intent);
+                }
+            });
+        }else{
+            holder.mPhotoSimpleDraweeView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    //長按刪除
+                    mPhotoInfo.getPhoto_list().remove(position);
+                    notifyDataSetChanged();
+                    return false;
+                }
+            });
+        }
+
 
     }
+
 
     @Override
     public int getItemCount() {

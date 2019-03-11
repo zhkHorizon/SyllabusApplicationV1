@@ -42,6 +42,7 @@ public interface CommnetsContract {
         int getPage_index();
         void setPage_index(int page_index);
         void stopLoad();
-        Activity getActivity();
+
+        void modify(int position);
     }
 }

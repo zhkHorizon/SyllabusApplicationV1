@@ -86,6 +86,13 @@
             android:textColor="@color/defaultShowColor"
             android:textSize="16sp"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/photoRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_below="@+id/contentTextView"
+            android:layout_marginTop="8dp"></android.support.v7.widget.RecyclerView>
+
         <com.example.daidaijie.syllabusapplication.widget.FlowLabelLayout
             android:id="@+id/postImgFlowLayout"
             android:layout_width="match_parent"
@@ -93,8 +100,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            app:LayoutType="1">
-        </com.example.daidaijie.syllabusapplication.widget.FlowLabelLayout>
+            app:LayoutType="1"></com.example.daidaijie.syllabusapplication.widget.FlowLabelLayout>
 
     </LinearLayout>
 

@@ -93,6 +93,7 @@ import java.util.TimerTask;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import cn.bmob.v3.Bmob;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -162,10 +163,14 @@ public class MainActivity extends BaseActivity implements
     // 用于显示下载进度
     private ProgressDialog progressDialog;
     private UpdateAsync updateAsync;
+    public static final String BMOB_APP_KEY = "20b6ba15d6ff51ca354407e8e6bf3bf1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化Bmob
+        //第一：默认初始化
+        Bmob.initialize(this,BMOB_APP_KEY);
         EventBus.getDefault().register(this);
 
         /**

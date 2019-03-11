@@ -92,6 +92,7 @@ public class CommnetsFragment extends BaseFragment implements CommnetsContract.v
         mCircleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mCircleRecyclerView.setAdapter(mCommentsAdapter);
         mCommentsAdapter.setmOnDeleteCallBack(mCommnetsPresenter);
+        mCommentsAdapter.setmOnModifyCallBack(mCommnetsPresenter);
         mCircleRecyclerView.setItemAnimator(new MyItemAnimator());
         mCommentsAdapter.setOnLongClickCallBack(mCommnetsPresenter);
 
@@ -218,7 +219,7 @@ public class CommnetsFragment extends BaseFragment implements CommnetsContract.v
         isShowDelete = true;
 
         if (isShowDelete) {
-            items = new String[]{"复制", "删除"};
+            items = new String[]{"复制", "修改", "删除"};
         } else {
             items = new String[]{"复制"};
         }
@@ -228,8 +229,11 @@ public class CommnetsFragment extends BaseFragment implements CommnetsContract.v
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             ClipboardUtil.copyToClipboard(postListBean.getComment().toString());
-                        } else {
+                        } else if( which==2 ){
                             showEnsureDeleteDialog(position);
+                        }else if(which == 1){
+                            //修改
+
                         }
                     }
                 });
@@ -238,6 +242,14 @@ public class CommnetsFragment extends BaseFragment implements CommnetsContract.v
         }
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void modify(int position) {
+        Intent intent = new Intent(getActivity(),PostContentActivity.class);
+        intent.putExtra("id",mCommentsAdapter.getmCommentsList().get(position).getId());
+        startActivity(intent);
+        mCommnetsPresenter.refresh();
     }
 
     @Override

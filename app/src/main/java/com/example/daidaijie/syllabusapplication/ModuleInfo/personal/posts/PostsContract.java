@@ -18,6 +18,7 @@ public interface PostsContract {
         void loadData();
 
         void deletePost(int position);
+
     }
 
     interface view extends BaseView<presenter> {

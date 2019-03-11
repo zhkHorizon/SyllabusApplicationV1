@@ -1,12 +1,15 @@
 package com.example.daidaijie.syllabusapplication.Modulefindlost.FindALL.postContent;
 
+import com.example.daidaijie.syllabusapplication.Modulefindlost.bean.FindBean;
 import com.example.daidaijie.syllabusapplication.Modulefindlost.bean.LostAddBean;
 import com.example.daidaijie.syllabusapplication.todo.bean.HttpBean;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -26,6 +29,9 @@ public interface PushPostApi {
 //    @FormUrlEncoded
 //    @POST("/extension/api/v2/findlost")
 //    Observable<LostAddBean> post(@Body postBean postContent);
+    @GET("/extension/api/v2/findlost/{id}")
+    Observable<FindBean> getPost(@Path("id") int id);
+
     @FormUrlEncoded
     @POST("/extension/api/v2/findlost")
     Observable<LostAddBean> post(@Field("uid") int uid,

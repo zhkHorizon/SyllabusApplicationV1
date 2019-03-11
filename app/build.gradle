@@ -7,7 +7,9 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
     defaultConfig {
         applicationId "com.hjsmallfly.syllabus"
         minSdkVersion 16
@@ -16,6 +18,13 @@ android {
         versionName "2.0.4"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+    }
+    configurations.all {
+        exclude module: 'rxjava'
+        exclude module: 'rxandroid'
+        exclude module: 'gson'
+        exclude group: 'com.squareup.okio', module: 'okio'
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
 
     buildTypes {
@@ -138,4 +147,5 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     apt 'com.google.dagger:dagger-compiler:2.0.1'
     compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'cn.bmob.android:bmob-sdk:3.5.0'
 }

@@ -1,8 +1,11 @@
 package com.example.daidaijie.syllabusapplication.Modulefindlost.FindALL.postContent;
 
 import com.example.daidaijie.syllabusapplication.App;
+import com.example.daidaijie.syllabusapplication.Modulefindlost.bean.FindBean;
 import com.example.daidaijie.syllabusapplication.R;
 import com.example.daidaijie.syllabusapplication.di.scope.PerActivity;
+import com.example.daidaijie.syllabusapplication.util.GsonUtil;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -11,6 +14,7 @@ import javax.inject.Inject;
 import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+import rx.Observer;
 import rx.Subscriber;
 
 /**
@@ -126,7 +130,7 @@ public class PostContentPresenter implements PostContentContract.presenter {
     }
 
     @Override
-    public void modifyContent(final int kind, final String title, final String desc, final String local, final String contact, final int findlost_id) {
+    public void modifyContent(final int kind, final String title, final String desc, final String local, final String contact, final String photo,final int findlost_id) {
         if (isNonePhoto() && desc.isEmpty()) {
             mView.showWarningMessage("请输入文字或者选择图片!");
             return;
@@ -136,7 +140,19 @@ public class PostContentPresenter implements PostContentContract.presenter {
         mIPostContentModel.postPhotoToBmob(new IPostContentModel.OnPostPhotoCallBack() {
             @Override
             public void onSuccess(String photoJson) {
-                mIPostContentModel.modifyContent(findlost_id,photoJson,kind,title,desc,local,contact)
+                //合并URL
+                if (photo != null && !photo.isEmpty()
+                        && !photo.equals("null")) {
+                    com.example.daidaijie.syllabusapplication.bean.PhotoInfo photoInfo1 = GsonUtil.getDefault()
+                            .fromJson(photoJson, com.example.daidaijie.syllabusapplication.bean.PhotoInfo.class);
+                    com.example.daidaijie.syllabusapplication.bean.PhotoInfo photoInfo2 = GsonUtil.getDefault()
+                            .fromJson(photo, com.example.daidaijie.syllabusapplication.bean.PhotoInfo.class);
+                    photoInfo1.getPhoto_list().addAll(photoInfo2.getPhoto_list());
+                    Gson gson = new Gson();
+                    photoJson = gson.toJson(photoInfo1);
+                }
+
+                mIPostContentModel.modifyContent(photoJson,kind,title,desc,local,contact,findlost_id)
                         .subscribe(new Subscriber<String>() {
                             @Override
                             public void onCompleted() {
@@ -171,5 +187,26 @@ public class PostContentPresenter implements PostContentContract.presenter {
                 mView.showLoading(false);
             }
         });
+    }
+
+    @Override
+    public void getPost(int id) {
+        mIPostContentModel.getPost(id)
+                .subscribe(new Subscriber<FindBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(FindBean findBean) {
+                        mView.showData(findBean);
+                    }
+                });
     }
 }

@@ -2,6 +2,8 @@ package com.example.daidaijie.syllabusapplication.Modulefindlost.FindALL.postCon
 
 import android.support.annotation.Nullable;
 
+import com.example.daidaijie.syllabusapplication.Modulefindlost.bean.FindBean;
+
 import java.util.List;
 
 import rx.Observable;
@@ -22,6 +24,8 @@ public interface IPostContentModel {
     List<String> getPhotoImgs();
 
     void postPhotoToBmob(OnPostPhotoCallBack onPostPhotoCallBack);
-    Observable<String> modifyContent(int findlost_id,@Nullable String photoListJson, int kind, String title, String desc, String local, String contac);
+
+    Observable<FindBean> getPost(int id);
     Observable<Integer> pushContent(@Nullable String photoListJson, int kind,String title,String desc,String local,String contac);
+    Observable<String> modifyContent(@Nullable String photoListJson, int kind,String title,String desc,String local,String contac,int id);
 }

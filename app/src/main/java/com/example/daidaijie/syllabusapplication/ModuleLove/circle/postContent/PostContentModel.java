@@ -124,7 +124,7 @@ public class PostContentModel implements IPostContentModel {
         postContent.real_uid = 3;
 //        postContent.token = "100002";
         postContent.title = title;
-        postContent.topic_id = topic_id;
+//        postContent.topic_id = topic_id;
 
         return pushPostApi.post(postContent)
                 .subscribeOn(Schedulers.io())

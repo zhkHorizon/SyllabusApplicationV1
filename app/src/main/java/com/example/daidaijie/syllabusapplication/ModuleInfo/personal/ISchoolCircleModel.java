@@ -29,4 +29,5 @@ public interface ISchoolCircleModel {
 
     Observable<List<PostListBean>> deletePost(int position);
     Observable<List<CommnetBean>> deleteComment(int position);
+
 }
